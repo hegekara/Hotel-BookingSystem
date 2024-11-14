@@ -1,5 +1,7 @@
 package com.hotel.entities;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -33,4 +35,7 @@ public class Customer {
 
     @Column(nullable = false)
     private String password;
+
+    @Column(nullable = false)
+    private LocalDate registerDate;
 }

@@ -39,4 +39,7 @@ public class Booking {
 
     @Column(nullable = false)
     private String status;
+
+    @Column(nullable = false)
+    private LocalDate bookingDate;
 }
