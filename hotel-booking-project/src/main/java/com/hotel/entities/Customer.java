@@ -30,4 +30,7 @@ public class Customer {
 
     @Column(nullable = false)
     private String phoneNumber;
+
+    @Column(nullable = false)
+    private String password;
 }
