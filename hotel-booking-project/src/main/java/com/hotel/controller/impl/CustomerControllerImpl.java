@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hotel.controller.ICustomerController;
 import com.hotel.dto.DtoCustomer;
 import com.hotel.dto.DtoCustomerIU;
+import com.hotel.dto.DtoResponse;
 import com.hotel.service.ICustomerService;
 
 @RestController
@@ -33,7 +34,7 @@ public class CustomerControllerImpl implements ICustomerController{
     }
 
     @PostMapping("/login")
-    public ResponseEntity<DtoCustomer> loginCustomer(@RequestParam(required = true) String email, @RequestParam(required = true) String password){
+    public ResponseEntity<DtoResponse> loginCustomer(@RequestParam(required = true) String email, @RequestParam(required = true) String password){
         return customerService.loginCustomer(email, password);
     }
 

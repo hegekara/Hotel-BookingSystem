@@ -6,12 +6,13 @@ import org.springframework.http.ResponseEntity;
 
 import com.hotel.dto.DtoCustomer;
 import com.hotel.dto.DtoCustomerIU;
+import com.hotel.dto.DtoResponse;
 
 public interface ICustomerController {
 
     public ResponseEntity<DtoCustomer> registerCustomer(DtoCustomerIU customer);
 
-    public ResponseEntity<DtoCustomer> loginCustomer(String email, String password);
+    public ResponseEntity<DtoResponse> loginCustomer(String email, String password);
 
     public ResponseEntity<List<DtoCustomer>> getAllCustomers();
 

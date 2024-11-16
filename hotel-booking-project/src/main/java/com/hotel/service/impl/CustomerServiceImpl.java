@@ -12,8 +12,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.hotel.config.JwtUtil;
 import com.hotel.dto.DtoCustomer;
 import com.hotel.dto.DtoCustomerIU;
+import com.hotel.dto.DtoResponse;
 import com.hotel.entities.Customer;
 import com.hotel.repository.ICustomerRepository;
 import com.hotel.service.ICustomerService;
@@ -26,6 +28,9 @@ public class CustomerServiceImpl implements ICustomerService{
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private JwtUtil jwtUtil;
 
 
     public ResponseEntity<DtoCustomer> registerCustomer(DtoCustomerIU dtoCustomerIU) {
@@ -52,13 +57,15 @@ public class CustomerServiceImpl implements ICustomerService{
 
 
     @Override
-    public ResponseEntity<DtoCustomer> loginCustomer(String email, String password) {
+    public ResponseEntity<DtoResponse> loginCustomer(String email, String password) {
         Customer customer = customerRepository.findByEmail(email);
         if(customer != null){
             if(passwordEncoder.matches(password, customer.getPassword())){
                 DtoCustomer dtoCustomer = new DtoCustomer();
                 BeanUtils.copyProperties(customer, dtoCustomer);
-                return ResponseEntity.ok().body(dtoCustomer);
+                
+                String token = jwtUtil.generateToken(email);
+                return ResponseEntity.ok(new DtoResponse(dtoCustomer,"Bearer " + token, "login succsessful"));
             }
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
@@ -69,7 +76,7 @@ public class CustomerServiceImpl implements ICustomerService{
     public ResponseEntity<List<DtoCustomer>> getAllCustomers() {
         List<Customer> customerList = customerRepository.findAll();
 
-        if(customerList != null){
+        {
             List<DtoCustomer> dtoCustomerList = new ArrayList<>();
             for (Customer item : customerList) {
                 DtoCustomer dtoCustomer = new DtoCustomer();
@@ -79,8 +86,6 @@ public class CustomerServiceImpl implements ICustomerService{
 
             return ResponseEntity.ok().body(dtoCustomerList);
         }
-        
-        return ResponseEntity.badRequest().body(null);
     }
 
 
