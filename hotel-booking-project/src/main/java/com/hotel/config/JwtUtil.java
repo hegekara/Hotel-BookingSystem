@@ -6,6 +6,8 @@ import java.util.Date;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import com.hotel.constants.Role;
+
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 
@@ -15,9 +17,10 @@ public class JwtUtil {
     private static final Key SECRET_KEY = Keys.secretKeyFor(io.jsonwebtoken.SignatureAlgorithm.HS256);
     private final int EXPIRATION_TIME = 1000*60*60*3;
 
-    public String generateToken(String email){
+    public String generateToken(String email, Role role){
         return Jwts.builder()
         .setSubject(email)
+        .claim("role", role.name())
         .setIssuedAt(new Date())
         .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
         .signWith(SECRET_KEY)
@@ -33,7 +36,18 @@ public class JwtUtil {
         .getSubject();
     }
 
-    private Date extractExpriration(String token){
+    public Role extarctRole(String token){
+        String roleName = Jwts.parserBuilder()
+        .setSigningKey(SECRET_KEY)
+        .build()
+        .parseClaimsJws(token)
+        .getBody()
+        .get("role", String.class);
+
+        return Role.valueOf(roleName);
+    }
+
+    private Date extractExpiration(String token){
         return Jwts.parserBuilder()
         .setSigningKey(SECRET_KEY)
         .build()
@@ -43,12 +57,13 @@ public class JwtUtil {
     }
 
     private boolean isTokenExpired(String token){
-        return extractExpriration(token).before(new Date());
+        return extractExpiration(token).before(new Date());
     }
 
     public boolean isValidToken(String token, UserDetails userDetails){
         String email = extractEmail(token);
+        Role role = extarctRole(token);
         System.out.println(userDetails.getUsername());
-        return (email.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        return (email.equals(userDetails.getUsername()) && !isTokenExpired(token) && role != null);
     }
 }

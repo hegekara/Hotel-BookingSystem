@@ -66,7 +66,7 @@ public class PersonelServiceImpl implements IPersonelService{
                 DtoPersonel dtoPersonel = new DtoPersonel();
                 BeanUtils.copyProperties(personel, dtoPersonel);
                 
-                String token = jwtUtil.generateToken(email);
+                String token = jwtUtil.generateToken(email, personel.getRole());
                 return ResponseEntity.ok(new DtoResponse(dtoPersonel,"Bearer " + token, "login succsessful"));
             }
         }
