@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.hotel.config.JwtUtil;
+import com.hotel.constants.Role;
 import com.hotel.dto.DtoCustomer;
 import com.hotel.dto.DtoCustomerIU;
 import com.hotel.dto.DtoResponse;
@@ -43,6 +44,7 @@ public class CustomerServiceImpl implements ICustomerService{
     
             BeanUtils.copyProperties(dtoCustomerIU, customer);
             customer.setRegisterDate(LocalDate.now());
+            customer.setRole(Role.CUSTOMER);
             customerRepository.save(customer);
     
             DtoCustomer dtoCustomer = new DtoCustomer();
