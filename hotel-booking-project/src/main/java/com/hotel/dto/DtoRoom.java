@@ -1,5 +1,7 @@
 package com.hotel.dto;
 
+import com.hotel.constants.BedType;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,7 +15,7 @@ public class DtoRoom {
 
     private int capacity;
 
-    private String bedType;
+    private BedType bedType;
 
     private double pricePerNight;
 

@@ -1,8 +1,8 @@
 package com.hotel.repository;
-import com.hotel.entities.Personel;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import com.hotel.entities.user.Personel;
 
 
 @Repository

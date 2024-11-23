@@ -1,7 +1,11 @@
 package com.hotel.entities;
 
+import com.hotel.constants.BedType;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -26,7 +30,8 @@ public class Room {
     private int capacity;
 
     @Column(nullable = false)
-    private String bedType;
+    @Enumerated(EnumType.STRING)
+    private BedType bedType;
 
     @Column(nullable = false)
     private double pricePerNight;
