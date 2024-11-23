@@ -16,7 +16,7 @@ import com.hotel.constants.Role;
 import com.hotel.dto.DtoResponse;
 import com.hotel.dto.user.DtoCustomer;
 import com.hotel.dto.user.DtoCustomerIU;
-import com.hotel.entities.Customer;
+import com.hotel.entities.user.Customer;
 import com.hotel.repository.ICustomerRepository;
 import com.hotel.security.JwtUtil;
 import com.hotel.service.ICustomerService;

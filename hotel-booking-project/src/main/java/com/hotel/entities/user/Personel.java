@@ -1,8 +1,6 @@
-package com.hotel.entities;
+package com.hotel.entities.user;
 
 import java.time.LocalDate;
-
-import com.hotel.entities.user.BaseUser;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

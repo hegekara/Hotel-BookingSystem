@@ -2,8 +2,9 @@ package com.hotel.dto;
 
 import java.time.LocalDate;
 
-import com.hotel.entities.Customer;
+import com.hotel.constants.BookingStatus;
 import com.hotel.entities.Room;
+import com.hotel.entities.user.Customer;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,5 +24,5 @@ public class DtoBooking {
 
     private LocalDate checkOutDate;
 
-    private String status;
+    private BookingStatus status;
 }

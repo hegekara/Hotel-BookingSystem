@@ -2,8 +2,13 @@ package com.hotel.entities;
 
 import java.time.LocalDate;
 
+import com.hotel.constants.BookingStatus;
+import com.hotel.entities.user.Customer;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -38,7 +43,8 @@ public class Booking {
     private LocalDate checkOutDate;
 
     @Column(nullable = false)
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private BookingStatus status;
 
     @Column(nullable = false)
     private LocalDate bookingDate;
