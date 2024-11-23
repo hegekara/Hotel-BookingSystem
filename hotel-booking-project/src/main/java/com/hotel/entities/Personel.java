@@ -9,13 +9,13 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-@Entity(name = "Customer")
+@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper=true)
-public class Customer extends BaseUser{
+public class Personel extends BaseUser{
 
     @Column(nullable = true)
-    private LocalDate registerDate;
+    private LocalDate startingDate;
 }

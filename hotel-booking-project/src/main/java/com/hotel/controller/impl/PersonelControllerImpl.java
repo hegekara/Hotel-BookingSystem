@@ -15,49 +15,49 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hotel.controller.ICustomerController;
-import com.hotel.dto.DtoCustomer;
-import com.hotel.dto.DtoCustomerIU;
+import com.hotel.controller.IPersonelController;
+import com.hotel.dto.DtoPersonel;
+import com.hotel.dto.DtoPersonelIU;
 import com.hotel.dto.DtoResponse;
-import com.hotel.service.ICustomerService;
+import com.hotel.service.IPersonelService;
 
 @RestController
-@RequestMapping("rest/api/customer")
-public class CustomerControllerImpl implements ICustomerController{
+@RequestMapping("rest/api/personel")
+public class PersonelControllerImpl implements IPersonelController{
 
     @Autowired
-    private ICustomerService customerService;
+    private IPersonelService personelService;
 
     @PostMapping("/register")
-    public ResponseEntity<DtoCustomer> registerCustomer(@RequestBody DtoCustomerIU customer) {
-        return customerService.registerCustomer(customer);
+    public ResponseEntity<DtoPersonel> registerPersonel(@RequestBody DtoPersonelIU personel) {
+        return personelService.registerPersonel(personel);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<DtoResponse> loginCustomer(@RequestParam(required = true) String email, @RequestParam(required = true) String password){
-        return customerService.loginCustomer(email, password);
+    public ResponseEntity<DtoResponse> loginPersonel(@RequestParam(required = true) String email, @RequestParam(required = true) String password){
+        return personelService.loginPersonel(email, password);
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<DtoCustomer>> getAllCustomers() {
-        return customerService.getAllCustomers();
+    public ResponseEntity<List<DtoPersonel>> getAllPersonel() {
+        return personelService.getAllPersonels();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DtoCustomer> getCustomerById(@PathVariable(name = "id", required = true) Long id) {
-        return customerService.getCustomerById(id);
+    public ResponseEntity<DtoPersonel> getPersonelById(@PathVariable(name = "id", required = true) Long id) {
+        return personelService.getPersonelById(id);
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<DtoCustomer> updateCustomer(
+    public ResponseEntity<DtoPersonel> updatePersonel(
             @PathVariable(name = "id", required = true) Long id,
-            @RequestBody(required = true) DtoCustomerIU updatedCustomer) {
-        return customerService.updateCustomer(id, updatedCustomer);
+            @RequestBody(required = true) DtoPersonelIU updatedPersonel) {
+        return personelService.updatePersonel(id, updatedPersonel);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteCustomer(@PathVariable Long id) {
-        return customerService.deleteCustomer(id);
+    public ResponseEntity<String> deletePersonel(@PathVariable Long id) {
+        return personelService.deletePersonel(id);
     }
 
     @PatchMapping("/{id}/password")
@@ -65,6 +65,6 @@ public class CustomerControllerImpl implements ICustomerController{
             @PathVariable Long id,
             @RequestParam(name = "oldPassword", required = true) String oldPassword,
             @RequestParam(name = "newPassword", required = true) String newPassword) {
-        return customerService.changePassword(id, oldPassword, newPassword);
+        return personelService.changePassword(id, oldPassword, newPassword);
     }
 }
