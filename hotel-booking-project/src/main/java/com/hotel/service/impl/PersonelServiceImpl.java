@@ -13,9 +13,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.hotel.constants.Role;
-import com.hotel.dto.DtoPersonel;
-import com.hotel.dto.DtoPersonelIU;
 import com.hotel.dto.DtoResponse;
+import com.hotel.dto.user.DtoPersonel;
+import com.hotel.dto.user.DtoPersonelIU;
 import com.hotel.entities.Personel;
 import com.hotel.repository.IPersonelRepository;
 import com.hotel.security.JwtUtil;

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.hotel.constants.Role;
-import com.hotel.entities.BaseUser;
+import com.hotel.entities.user.BaseUser;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -37,7 +37,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             BaseUser user = new BaseUser();
             user.setEmail(email);
-            user.setPassword(""); // Şifreyi null bırakabilirsiniz, şifre doğrulama yapılmayacak.
+            user.setPassword("");
             user.setRole(role);
 
             CustomUserDetails customUserDetails = new CustomUserDetails(user);

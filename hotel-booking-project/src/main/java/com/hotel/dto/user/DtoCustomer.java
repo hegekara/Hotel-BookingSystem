@@ -1,4 +1,4 @@
-package com.hotel.dto;
+package com.hotel.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class DtoPersonelIU {
+public class DtoCustomer {
 
     private String firstName;
 
@@ -16,6 +16,4 @@ public class DtoPersonelIU {
     private String email;
 
     private String phoneNumber;
-
-    private String password;
 }

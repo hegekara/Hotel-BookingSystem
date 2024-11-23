@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hotel.controller.ICustomerController;
-import com.hotel.dto.DtoCustomer;
-import com.hotel.dto.DtoCustomerIU;
 import com.hotel.dto.DtoResponse;
+import com.hotel.dto.user.DtoCustomer;
+import com.hotel.dto.user.DtoCustomerIU;
 import com.hotel.service.ICustomerService;
 
 @RestController

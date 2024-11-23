@@ -1,13 +1,13 @@
 package com.hotel.security;
 
-import com.hotel.entities.BaseUser;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import com.hotel.entities.user.BaseUser;
 
 import java.util.Collection;
 import java.util.Collections;

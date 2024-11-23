@@ -2,6 +2,8 @@ package com.hotel.entities;
 
 import java.time.LocalDate;
 
+import com.hotel.entities.user.BaseUser;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;

@@ -1,4 +1,4 @@
-package com.hotel.entities;
+package com.hotel.entities.user;
 
 import com.hotel.constants.Role;
 
