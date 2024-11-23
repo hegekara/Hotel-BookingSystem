@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper=true)
-public class Customer extends Human{
+public class Customer extends BaseUser{
 
     @Column(nullable = true)
     private LocalDate registerDate;

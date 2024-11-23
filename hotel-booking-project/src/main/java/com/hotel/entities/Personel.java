@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper=true)
-public class Personel extends Human{
+public class Personel extends BaseUser{
 
     @Column(nullable = true)
     private LocalDate startingDate;

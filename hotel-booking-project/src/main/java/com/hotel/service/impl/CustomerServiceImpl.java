@@ -12,13 +12,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.hotel.config.JwtUtil;
 import com.hotel.constants.Role;
 import com.hotel.dto.DtoCustomer;
 import com.hotel.dto.DtoCustomerIU;
 import com.hotel.dto.DtoResponse;
 import com.hotel.entities.Customer;
 import com.hotel.repository.ICustomerRepository;
+import com.hotel.security.JwtUtil;
 import com.hotel.service.ICustomerService;
 
 @Service
