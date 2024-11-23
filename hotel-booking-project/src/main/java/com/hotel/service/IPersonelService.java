@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 
-import com.hotel.dto.DtoPersonel;
-import com.hotel.dto.DtoPersonelIU;
 import com.hotel.dto.DtoResponse;
+import com.hotel.dto.user.DtoPersonel;
+import com.hotel.dto.user.DtoPersonelIU;
 
 public interface IPersonelService {
 

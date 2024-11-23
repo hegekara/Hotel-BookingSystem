@@ -1,4 +1,4 @@
-package com.hotel.dto;
+package com.hotel.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
