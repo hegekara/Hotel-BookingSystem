@@ -1,11 +1,14 @@
-import './App.css'
+import React from "react";
+import { Outlet } from "react-router-dom";
 
-function App() {
+const App = () => {
 
   return (
     <div>
+      <h1>Hotel Reservation System</h1>
+      <Outlet />
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
