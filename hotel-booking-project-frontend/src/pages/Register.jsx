@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import API from "../api";
 import "../styles/Auth.css"
 
@@ -15,7 +15,7 @@ const Register = () => {
 
   useEffect(() => {
     if(localStorage.getItem("jwtToken")) {
-        navigate("/dashboard");
+        navigate("/home");
     }
   }, [navigate])
 
@@ -31,8 +31,8 @@ const Register = () => {
 
   return (
     <div className="auth-container">
-      <h2 className="auth-title">Register</h2>
       <form className="auth-form" onSubmit={handleRegister}>
+        <h2 className="auth-title">Register</h2>
         <div className="form-group">
           <label className="form-label">Email:</label>
           <input
@@ -77,17 +77,21 @@ const Register = () => {
           <label className="form-label">Password:</label>
           <input
             className="form-input"
-            type="password"
+            type="current-password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
         </div>
         <button className="form-button" type="submit">Register</button>
+        <div className="link-container">
+          <Link className="form-link" to="/login">Go to Login Page</Link>
+        </div>
       </form>
       {success && <p>Registration successful! You can now log in.</p>}
       {error && <p style={{ color: "red" }}>{error}</p>}
     </div>
+    
   );
 };
 
