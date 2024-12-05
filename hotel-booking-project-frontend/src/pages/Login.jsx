@@ -11,7 +11,7 @@ const Login = () => {
 
     useEffect(() => {
       if (localStorage.getItem("jwtToken")) {
-        navigate("/dashboard");
+        navigate("/home");
       }
     }, [navigate]);
   
@@ -34,7 +34,7 @@ const Login = () => {
         const token = response.data.token;
         if (token) {
           localStorage.setItem("jwtToken", token);
-          navigate("/dashboard");
+          navigate("/home");
         }
       } catch (error) {
         console.error("Error:", error);
@@ -44,8 +44,8 @@ const Login = () => {
 
   return (
     <div className="auth-container">
-      <h2 className="auth-title">Login</h2>
       <form className="auth-form" onSubmit={handleLogin}>
+      <h2 className="auth-title">Login</h2>
         <div className="form-group">
           <label className="form-label">Email:</label>
           <input
