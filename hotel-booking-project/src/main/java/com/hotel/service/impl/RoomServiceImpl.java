@@ -1,5 +1,6 @@
 package com.hotel.service.impl;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.hotel.constants.RoomType;
 import com.hotel.dto.DtoRoom;
 import com.hotel.entities.Room;
 import com.hotel.repository.IRoomRepository;
@@ -103,5 +105,24 @@ public class RoomServiceImpl implements IRoomService {
             }
         }
         return ResponseEntity.badRequest().body("Room with ID " + id + " could not be found.");
+    }
+
+    public ResponseEntity<List<DtoRoom>> findAvailableRooms(RoomType roomType, String bedType, Boolean hasView, LocalDate checkInDate, LocalDate checkOutDate) {
+        List<Room> availableRooms = roomRepository.findAvailableRooms(roomType, bedType, hasView, checkInDate, checkOutDate);
+
+        if(!availableRooms.isEmpty()){
+            List<DtoRoom> availableDtoRooms = new ArrayList<>();
+
+            for (Room room : availableRooms) {
+                DtoRoom dtoRoom = new DtoRoom();
+
+                BeanUtils.copyProperties(room, dtoRoom);
+                availableDtoRooms.add(dtoRoom);
+            }
+
+            return ResponseEntity.ok().body(availableDtoRooms);
+        }
+
+        return ResponseEntity.badRequest().body(null);
     }
 }

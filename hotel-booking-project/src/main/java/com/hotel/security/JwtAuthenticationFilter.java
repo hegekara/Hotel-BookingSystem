@@ -28,26 +28,35 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         @NonNull HttpServletRequest request,
         @NonNull HttpServletResponse response,
         @NonNull FilterChain filterChain)
-            throws ServletException, IOException {
+        throws ServletException, IOException {
+
+        System.out.println(request.getHeader("Authorization"));
+    
         String token = extractToken(request);
 
+        System.out.println(token);
+    
         if (token != null && !jwtUtil.isTokenExpired(token)) {
-            String email = jwtUtil.extractEmail(token);
-            Role role = jwtUtil.extractRole(token);
-
-            BaseUser user = new BaseUser();
-            user.setEmail(email);
-            user.setPassword("");
-            user.setRole(role);
-
-            CustomUserDetails customUserDetails = new CustomUserDetails(user);
-
-            UsernamePasswordAuthenticationToken authentication = 
-                new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities());
-
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+            try {
+                String email = jwtUtil.extractEmail(token);
+                Role role = jwtUtil.extractRole(token);
+    
+                BaseUser user = new BaseUser();
+                user.setEmail(email);
+                user.setPassword("");
+                user.setRole(role);
+    
+                CustomUserDetails customUserDetails = new CustomUserDetails(user);
+    
+                UsernamePasswordAuthenticationToken authentication = 
+                    new UsernamePasswordAuthenticationToken(customUserDetails, null, customUserDetails.getAuthorities());
+    
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            } catch (Exception ex) {
+                SecurityContextHolder.clearContext();
+            }
         }
-
+    
         filterChain.doFilter(request, response);
     }
 

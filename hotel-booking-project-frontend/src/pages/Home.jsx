@@ -12,30 +12,11 @@ const Home = () => {
     setIsLoggedIn(!!token);
   }, []);
 
-  const rooms = [
-    {
-      id: 1,
-      name: "Deluxe Room",
-      description: "Experience luxury with our deluxe rooms.",
-      price: "$150/night",
-    },
-    {
-      id: 2,
-      name: "Standard Room",
-      description: "Comfortable and affordable standard rooms.",
-      price: "$100/night",
-    },
-    {
-      id: 3,
-      name: "Suite",
-      description: "Spacious suites for a premium stay.",
-      price: "$250/night",
-    },
-  ];
-
   return (
-    <div className="home-container">
-      <header className="home-header">
+
+    <div className="homepage-img">
+      <img src="../src/static/images/homepage-img.jpeg" alt="Hotel Image" />
+      <div className="content">
         <h1>Welcome to Our Hotel</h1>
         {!isLoggedIn && (
           <div className="auth-buttons">
@@ -43,23 +24,13 @@ const Home = () => {
             <Link to="/register" className="home-button">Register</Link>
           </div>
         )}
-      </header>
-
-      <section className="hotel-gallery">
-        <h2>Explore Our Rooms</h2>
-        <div className="room-list">
-          {rooms.map((room) => (
-            <div key={room.id} className="room-card">
-              <h3>{room.name}</h3>
-              <p>{room.description}</p>
-              <p className="room-price">{room.price}</p>
-              <button
-                className="home-button"
-                onClick={() => alert(`Booking ${room.name}`)}>Book Now</button>
-            </div>
-          ))}
-        </div>
-      </section>
+        {isLoggedIn && (
+          <div>
+            <p className="desc">Enjoy the luxury and comfort of our premium rooms.</p>
+            <Link to="/room-filter" className="home-button">Explore Rooms</Link>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
