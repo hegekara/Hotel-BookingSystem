@@ -67,7 +67,7 @@ public class CustomerServiceImpl implements ICustomerService{
                 BeanUtils.copyProperties(customer, dtoCustomer);
                 
                 String token = jwtUtil.generateToken(email, customer.getRole());
-                return ResponseEntity.ok(new DtoResponse(dtoCustomer,"Bearer " + token, "login succsessful"));
+                return ResponseEntity.ok(new DtoResponse(dtoCustomer, token, "login succsessful"));
             }
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);

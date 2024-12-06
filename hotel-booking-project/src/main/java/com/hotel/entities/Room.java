@@ -1,6 +1,7 @@
 package com.hotel.entities;
 
 import com.hotel.constants.BedType;
+import com.hotel.constants.RoomType;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -25,6 +26,10 @@ public class Room {
 
     @Column(nullable = false)
     private String roomNumber;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private RoomType roomType;
 
     @Column(nullable = false)
     private int capacity;

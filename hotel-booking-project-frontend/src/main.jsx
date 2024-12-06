@@ -7,17 +7,21 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Home from "./pages/Home"
 import NoPage from "./pages/NoPage";
+import RoomFilter from "./pages/RoomFilter";
+import ListRoom from "./pages/ListRoom";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
+  <>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} /> 
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/home" element={<Home />} />
+        <Route path="/room-filter" element={<RoomFilter />} />
+        <Route path="/list-room" element={<ListRoom />} />
         <Route path="/*" element={<NoPage/>}/>
       </Routes>
     </BrowserRouter>
-  </React.StrictMode>
+  </>
 );

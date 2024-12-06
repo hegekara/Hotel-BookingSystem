@@ -1,6 +1,9 @@
 package com.hotel.controller.impl;
 
+import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,8 +14,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hotel.constants.RoomType;
 import com.hotel.controller.IRoomController;
 import com.hotel.dto.DtoRoom;
 import com.hotel.service.IRoomService;
@@ -47,5 +52,25 @@ public class RoomControllerImpl implements IRoomController{
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteRoom(@PathVariable Long id) {
         return roomService.deleteRoom(id);
+    }
+
+    @GetMapping("/filter")
+    public ResponseEntity<List<DtoRoom>> getAvailableRooms(
+            @RequestParam(required = false) RoomType roomType,
+            @RequestParam(required = false) String bedType,
+            @RequestParam(required = false) Boolean hasView,
+            @RequestParam LocalDate checkInDate,
+            @RequestParam LocalDate checkOutDate) {
+
+        return roomService.findAvailableRooms(roomType, bedType, hasView, checkInDate, checkOutDate);
+    }
+
+    @GetMapping("/room-types")
+    public ResponseEntity<List<String>> getRoomTypes() {
+        System.out.println("a");
+        List<String> roomTypes = Arrays.stream(RoomType.values())
+                                    .map(Enum::name)
+                                    .collect(Collectors.toList());
+        return ResponseEntity.ok(roomTypes);
     }
 }
