@@ -9,6 +9,7 @@ import Home from "./pages/Home"
 import NoPage from "./pages/NoPage";
 import RoomFilter from "./pages/RoomFilter";
 import ListRoom from "./pages/ListRoom";
+import RoomDetail from "./pages/RoomDetail";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <>
@@ -20,6 +21,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Route path="/home" element={<Home />} />
         <Route path="/room-filter" element={<RoomFilter />} />
         <Route path="/list-room" element={<ListRoom />} />
+        <Route path="/rooms" element={<RoomDetail />} />
         <Route path="/*" element={<NoPage/>}/>
       </Routes>
     </BrowserRouter>

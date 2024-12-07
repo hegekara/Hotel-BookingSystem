@@ -29,7 +29,7 @@ const Home = () => {
         {isLoggedIn && (
           <div>
             <p className="desc">Enjoy the luxury and comfort of our premium rooms.</p>
-            <Link to="/room-filter" className="home-button">Explore Rooms</Link>
+            <Link to="/rooms" className="home-button">Explore Rooms</Link>
           </div>
         )}
       </div>
