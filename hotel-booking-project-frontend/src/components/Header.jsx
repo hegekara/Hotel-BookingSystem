@@ -37,7 +37,7 @@ const Header = ({ isLoggedIn }) => {
             {isDropdownOpen && (
               <div className="dropdown-menu">
                 <Link to="/profile" className="dropdown-item">Profil</Link>
-                <Link to="/settings" className="dropdown-item">Ayarlar</Link>
+                <Link to="/password-settings" className="dropdown-item">Change Password</Link>
                 <Link to="/list-booking" className="dropdown-item">Bookings</Link>
                 <button onClick={logOut} className="dropdown-item">Log Out</button>
               </div>

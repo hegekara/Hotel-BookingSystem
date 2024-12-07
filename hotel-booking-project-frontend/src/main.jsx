@@ -11,6 +11,8 @@ import RoomFilter from "./pages/RoomFilter";
 import ListRoom from "./pages/ListRoom";
 import RoomDetail from "./pages/RoomDetail";
 import ListBooking from "./pages/ListBooking";
+import Profile from "./pages/Profile";
+import PasswordSettings from "./pages/PasswordSettings";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <>
@@ -24,6 +26,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Route path="/list-room" element={<ListRoom />} />
         <Route path="/rooms" element={<RoomDetail />} />
         <Route path="/list-booking" element={<ListBooking />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/password-settings" element={<PasswordSettings />} />
         <Route path="/*" element={<NoPage/>}/>
       </Routes>
     </BrowserRouter>

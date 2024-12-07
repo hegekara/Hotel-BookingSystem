@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import API from "../api";
 import "../styles/Auth.css";
 
@@ -74,6 +74,9 @@ const Login = () => {
           <button className="form-button" type="submit">
             Login
           </button>
+          <div className="link-container">
+            <Link className="form-link" to="/register">Go to Register Page</Link>
+          </div>
         </form>
         {error && <p className="error-message">{error}</p>}
       </div>

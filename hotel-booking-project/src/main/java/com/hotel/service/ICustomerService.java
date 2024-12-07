@@ -16,11 +16,11 @@ public interface ICustomerService {
 
     public ResponseEntity<List<DtoCustomer>> getAllCustomers();
 
-    public ResponseEntity<DtoCustomer> getCustomerById(Long id);
+    public ResponseEntity<DtoCustomer> getCustomerByEmail(String email);
 
-    public ResponseEntity<DtoCustomer> updateCustomer(Long id, DtoCustomerIU updatedCustomer);
+    public ResponseEntity<DtoCustomer> updateCustomer(String email, DtoCustomer updatedCustomer);
 
-    public ResponseEntity<String> deleteCustomer(Long id);
+    public ResponseEntity<String> deleteCustomer(String email);
 
-    public ResponseEntity<String> changePassword(Long id, String oldPassword, String newPassword);
+    public ResponseEntity<String> changePassword(String email, String oldPassword, String newPassword);
 }

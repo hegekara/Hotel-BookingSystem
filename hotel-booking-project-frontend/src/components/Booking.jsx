@@ -22,6 +22,7 @@ function Booking({ bookings, onCancel }) {
             API.delete(`/booking/${id}`)
                 .then((response) => {
                     alert(response.data);
+                    localStorage.clear();
                     window.location.reload();
                 })
                 .catch((error) => {

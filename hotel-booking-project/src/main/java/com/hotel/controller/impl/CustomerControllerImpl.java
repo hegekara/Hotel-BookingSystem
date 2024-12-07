@@ -45,28 +45,28 @@ public class CustomerControllerImpl implements ICustomerController{
         return customerService.getAllCustomers();
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<DtoCustomer> getCustomerById(@PathVariable(name = "id", required = true) Long id) {
-        return customerService.getCustomerById(id);
+    @GetMapping("/{email}")
+    public ResponseEntity<DtoCustomer> getCustomerByEmail(@PathVariable(name = "email", required = true) String email) {
+        return customerService.getCustomerByEmail(email);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/update/{email}")
     public ResponseEntity<DtoCustomer> updateCustomer(
-            @PathVariable(name = "id", required = true) Long id,
-            @RequestBody(required = true) DtoCustomerIU updatedCustomer) {
-        return customerService.updateCustomer(id, updatedCustomer);
+            @PathVariable(name = "email", required = true) String email,
+            @RequestBody(required = true) DtoCustomer updatedCustomer) {
+        return customerService.updateCustomer(email, updatedCustomer);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteCustomer(@PathVariable Long id) {
-        return customerService.deleteCustomer(id);
+    @DeleteMapping("/delete/{email}")
+    public ResponseEntity<String> deleteCustomer(@PathVariable String email) {
+        return customerService.deleteCustomer(email);
     }
 
-    @PatchMapping("/{id}/password")
+    @PatchMapping("/{email}/password")
     public ResponseEntity<String> changePassword(
-            @PathVariable Long id,
+            @PathVariable String email,
             @RequestParam(name = "oldPassword", required = true) String oldPassword,
             @RequestParam(name = "newPassword", required = true) String newPassword) {
-        return customerService.changePassword(id, oldPassword, newPassword);
+        return customerService.changePassword(email, oldPassword, newPassword);
     }
 }

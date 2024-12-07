@@ -38,7 +38,11 @@ function ListBooking() {
                 <Booking bookings={bookings} />
                 </>
                 ) : (
-                    <p>No bookings found or you're not logged in.</p>
+                    <>
+                    <Header isLoggedIn={isLoggedIn}/>
+                    <br /><br />
+                    <h2 style={{margin:"25% 40%"}}>No bookings found or you're not logged in.</h2>
+                    </>
                 )}
         </div>
     );
