@@ -4,7 +4,7 @@ import Room from '../components/Room';
 
 function ListRoom() {
   const location = useLocation();
-  const { rooms } = location.state || { rooms: [] };
+  const { rooms, checkInDate, checkOutDate } = location.state || { rooms: [], checkInDate: '', checkOutDate: '' };
 
   const handleReserve = (roomNumber) => {
     alert(`Room ${roomNumber} reserved!`);
@@ -13,7 +13,7 @@ function ListRoom() {
   return (
     <div style={{ padding: "20px" }}>
       <h2>Available Rooms</h2>
-      <Room rooms={rooms} onReserve={handleReserve} />
+      <Room rooms={rooms} checkInDate={checkInDate} checkOutDate={checkOutDate} onReserve={handleReserve} />
     </div>
   );
 }

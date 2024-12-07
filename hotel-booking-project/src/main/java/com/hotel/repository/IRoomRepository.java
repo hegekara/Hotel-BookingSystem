@@ -19,4 +19,6 @@ public interface IRoomRepository extends JpaRepository<Room, Long>{
     "AND r.isAvailable = true " +
     "AND r.id NOT IN ( SELECT b.room.id FROM Booking b WHERE b.checkOutDate >= :checkInDate AND b.checkInDate <= :checkOutDate) ")
     List<Room> findAvailableRooms(RoomType roomType, String bedType, Boolean hasView, LocalDate checkInDate, LocalDate checkOutDate);
+
+    Room findByRoomNumber(String roomNumber);
 }

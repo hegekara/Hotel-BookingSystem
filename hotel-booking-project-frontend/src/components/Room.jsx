@@ -1,7 +1,8 @@
 import React from 'react';
 import '../styles/Room.css';
+import API from '../api';
 
-function Room({ rooms, onReserve }) {
+function Room({ rooms, checkInDate, checkOutDate }) {
   const getRoomImage = (roomType) => {
     switch (roomType.toLowerCase()) {
       case 'deluxe':
@@ -12,6 +13,27 @@ function Room({ rooms, onReserve }) {
         return 'src/static/images/suit-room.jpeg';
       default:
         return 'src/static/images/standart-room.jpeg';
+    }
+  }
+  
+  const handleReserve = async (roomNumber) => {
+    try {
+      const reservation = {
+        email: localStorage.getItem("email"),
+        roomNumber: roomNumber,
+        checkInDate: checkInDate,
+        checkOutDate: checkOutDate,
+        status: " ",
+      };
+
+      console.log(reservation.email);
+
+      const response = await API.post('/booking/create', reservation);
+      console.log('Reservation successful:', response.data);
+      alert('Reservation successful!');
+    } catch (error) {
+      console.error('Error creating reservation:', error);
+      alert('Failed to reserve room. Please try again.');
     }
   };
 
@@ -31,10 +53,7 @@ function Room({ rooms, onReserve }) {
                 <p><strong>Capacity:</strong> {room.capacity}</p>
                 <p><strong>Room Type:</strong> {room.roomType}</p>
                 <p><strong>Price:</strong> ${room.pricePerNight}</p>
-                <button 
-                  className="reserve-button" 
-                  onClick={() => onReserve(room.roomNumber)}
-                >
+                <button className="reserve-button" onClick={() => handleReserve(room.roomNumber)}>
                   Reserve
                 </button>
               </div>

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 
 import com.hotel.dto.DtoBooking;
+import com.hotel.dto.DtoBookingIU;
 
 public interface IBookingService {
 
@@ -12,7 +13,7 @@ public interface IBookingService {
 
     public ResponseEntity<DtoBooking> getBookingById(Long id);
 
-    public ResponseEntity<DtoBooking> createBooking(DtoBooking newBooking);
+public ResponseEntity<DtoBookingIU> createBooking(DtoBookingIU dtoBookingIU);
 
     public ResponseEntity<DtoBooking> updateBooking(Long id, DtoBooking updatedBooking);
 
