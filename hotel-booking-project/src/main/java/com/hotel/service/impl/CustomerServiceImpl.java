@@ -3,7 +3,6 @@ package com.hotel.service.impl;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,9 @@ import com.hotel.constants.Role;
 import com.hotel.dto.DtoResponse;
 import com.hotel.dto.user.DtoCustomer;
 import com.hotel.dto.user.DtoCustomerIU;
+import com.hotel.entities.Booking;
 import com.hotel.entities.user.Customer;
+import com.hotel.repository.IBookingRepository;
 import com.hotel.repository.ICustomerRepository;
 import com.hotel.security.JwtUtil;
 import com.hotel.service.ICustomerService;
@@ -26,6 +27,9 @@ public class CustomerServiceImpl implements ICustomerService{
 
     @Autowired
     private ICustomerRepository customerRepository;
+
+    @Autowired
+    private IBookingRepository bookingRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -92,11 +96,10 @@ public class CustomerServiceImpl implements ICustomerService{
 
 
     @Override
-    public ResponseEntity<DtoCustomer> getCustomerById(Long id) {
-        Optional<Customer> optional = customerRepository.findById(id);
+    public ResponseEntity<DtoCustomer> getCustomerByEmail(String email) {
+        Customer customer = customerRepository.findByEmail(email);
         
-        if(optional.isPresent()){
-            Customer customer = optional.get();
+        if(customer!=null){
             DtoCustomer dtoCustomer = new DtoCustomer();
 
             BeanUtils.copyProperties(customer, dtoCustomer);
@@ -107,11 +110,10 @@ public class CustomerServiceImpl implements ICustomerService{
 
 
     @Override
-    public ResponseEntity<DtoCustomer> updateCustomer(Long id, DtoCustomerIU updatedCustomer) {
-        Optional<Customer> existingCustomer = customerRepository.findById(id);
+    public ResponseEntity<DtoCustomer> updateCustomer(String email, DtoCustomer updatedCustomer) {
+        Customer customer = customerRepository.findByEmail(email);
     
-        if (existingCustomer.isPresent()) {
-            Customer customer = existingCustomer.get();
+        if (customer!=null) {
 
             customer.setFirstName(updatedCustomer.getFirstName());
             customer.setLastName(updatedCustomer.getLastName());
@@ -130,23 +132,27 @@ public class CustomerServiceImpl implements ICustomerService{
 
 
     @Override
-    public ResponseEntity<String> deleteCustomer(Long id) {
-        Optional<Customer> existingCustomer = customerRepository.findById(id);
+    public ResponseEntity<String> deleteCustomer(String email) {
+        Customer existingCustomer = customerRepository.findByEmail(email);
     
-        if (existingCustomer.isPresent()) {
-            customerRepository.deleteById(id);
-            return ResponseEntity.ok("Customer with ID " + id + " has been deleted successfully.");
-        } 
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Customer with ID " + id + " not found.");
+        if (existingCustomer != null) {
+            List<Booking> bookings = bookingRepository.findByCustomer_Email(email);
+    
+            if (bookings.isEmpty()) {
+                customerRepository.deleteById(existingCustomer.getId());
+                return ResponseEntity.ok("Customer has been deleted successfully.");
+            }
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Customer has active bookings and cannot be deleted.");
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Customer not found.");
     }
 
 
     @Override
-    public ResponseEntity<String> changePassword(Long id, String oldPassword, String newPassword) {
-        Optional<Customer> existingCustomer = customerRepository.findById(id);
+    public ResponseEntity<String> changePassword(String email, String oldPassword, String newPassword) {
+        Customer customer = customerRepository.findByEmail(email);
     
-        if (existingCustomer.isPresent()) {
-            Customer customer = existingCustomer.get();
+        if (customer!=null) {
     
             if (passwordEncoder.matches(oldPassword, customer.getPassword())) {
                 customer.setPassword(passwordEncoder.encode(newPassword));
@@ -157,7 +163,7 @@ public class CustomerServiceImpl implements ICustomerService{
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Old password does not match.");
             }
         } else{
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Customer with ID " + id + " not found.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Customer not found.");
         }
     }
 }

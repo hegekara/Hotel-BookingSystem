@@ -6,6 +6,7 @@ import "../styles/Auth.css"
 const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [password2, setPassword2] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastNname] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -14,13 +15,19 @@ const Register = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if(localStorage.getItem("jwtToken")) {
-        navigate("/home");
+    if (localStorage.getItem("jwtToken")) {
+      navigate("/home");
     }
   }, [navigate])
 
   const handleRegister = async (e) => {
     e.preventDefault();
+
+    if (password !== password2) {
+      setError("Passwords do not match. Please try again.");
+      return;
+    }
+
     try {
       await API.post("/customer/register", { firstName, lastName, email, phoneNumber, password });
       setSuccess(true);
@@ -79,9 +86,19 @@ const Register = () => {
             <label className="form-label">Password:</label>
             <input
               className="form-input"
-              type="current-password"
+              type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label className="form-label">Password x2 :</label>
+            <input
+              className="form-input"
+              type="password"
+              value={password2}
+              onChange={(e) => setPassword2(e.target.value)}
               required
             />
           </div>
@@ -94,8 +111,8 @@ const Register = () => {
         {error && <p style={{ color: "red" }}>{error}</p>}
       </div>
     </div>
-    
-    
+
+
   );
 };
 

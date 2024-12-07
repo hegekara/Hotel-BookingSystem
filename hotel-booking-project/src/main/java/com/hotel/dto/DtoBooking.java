@@ -16,6 +16,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class DtoBooking {
 
+    private Long id;
+
     private Customer customer;
 
     private Room room;
