@@ -10,9 +10,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.hotel.constants.BookingStatus;
 import com.hotel.dto.DtoBooking;
+import com.hotel.dto.DtoBookingIU;
 import com.hotel.entities.Booking;
+import com.hotel.entities.Room;
+import com.hotel.entities.user.Customer;
 import com.hotel.repository.IBookingRepository;
+import com.hotel.repository.ICustomerRepository;
+import com.hotel.repository.IRoomRepository;
 import com.hotel.service.IBookingService;
 
 @Service
@@ -20,6 +26,12 @@ public class BookingServiceImpl implements IBookingService {
 
     @Autowired
     private IBookingRepository bookingRepository;
+
+    @Autowired
+    private ICustomerRepository customerRepository;
+
+    @Autowired
+    private IRoomRepository roomRepository;
 
 
     @Override
@@ -56,19 +68,33 @@ public class BookingServiceImpl implements IBookingService {
     }
 
     @Override
-    public ResponseEntity<DtoBooking> createBooking(DtoBooking newBooking) {
+    public ResponseEntity<DtoBookingIU> createBooking(DtoBookingIU dtoBookingIU) {
         try {
-            Booking booking = new Booking();
-            BeanUtils.copyProperties(newBooking, booking);
+            Customer customer = customerRepository.findByEmail(dtoBookingIU.getEmail());
 
-            booking = bookingRepository.save(booking);
+            Room room = roomRepository.findByRoomNumber(dtoBookingIU.getRoomNumber());
+
+            if (!room.isAvailable()) {
+                throw new IllegalStateException("Room is not available for booking");
+            }
+
+            Booking booking = new Booking();
+            booking.setCustomer(customer);
+            booking.setRoom(room);
+            booking.setCheckInDate(dtoBookingIU.getCheckInDate());
+            booking.setCheckOutDate(dtoBookingIU.getCheckOutDate());
+            booking.setStatus(BookingStatus.ACCEPTED);
             booking.setBookingDate(LocalDate.now());
 
-            DtoBooking savedBooking = new DtoBooking();
-            BeanUtils.copyProperties(booking, savedBooking);
-            return ResponseEntity.ok().body(savedBooking);
+            room.setAvailable(false);
+            roomRepository.save(room);
+
+            bookingRepository.save(booking);
+
+            return ResponseEntity.ok().body(dtoBookingIU);
+
         } catch (Exception e) {
-            return ResponseEntity.status(500).body(null);
+            return ResponseEntity.badRequest().body(null);
         }
     }
 
@@ -91,7 +117,7 @@ public class BookingServiceImpl implements IBookingService {
                 BeanUtils.copyProperties(booking, savedBooking);
                 return ResponseEntity.ok().body(savedBooking);
             } catch (Exception e) {
-                return ResponseEntity.status(500).body(null);
+                return ResponseEntity.badRequest().body(null);
             }
         }
 
@@ -107,7 +133,7 @@ public class BookingServiceImpl implements IBookingService {
                 bookingRepository.delete(optionalBooking.get());
                 return ResponseEntity.ok("Booking with ID " + id + " has been canceled successfully.");
             } catch (Exception e) {
-                return ResponseEntity.status(500).body("Failed to cancel the booking.");
+                return ResponseEntity.badRequest().body("Failed to cancel the booking.");
             }
         }
 

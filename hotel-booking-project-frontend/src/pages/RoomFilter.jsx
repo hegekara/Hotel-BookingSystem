@@ -33,7 +33,11 @@ function RoomFilter() {
     try {
       const response = await API.get('/room/filter', { params: filterData });
       console.log(response);
-      navigate('/list-room', { state: { rooms: response.data } });
+      navigate('/list-room', { state: { 
+        rooms: response.data, 
+        checkInDate, 
+        checkOutDate 
+      } });
     } catch (error) {
       console.error('Error filtering rooms:', error);
     }

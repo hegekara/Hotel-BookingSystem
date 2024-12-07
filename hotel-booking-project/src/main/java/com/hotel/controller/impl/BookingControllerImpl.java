@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.hotel.controller.IBookingController;
 import com.hotel.dto.DtoBooking;
+import com.hotel.dto.DtoBookingIU;
 import com.hotel.service.IBookingService;
 
 @RestController
@@ -34,9 +35,9 @@ public class BookingControllerImpl implements IBookingController{
         return bookingService.getBookingById(id);
     }
 
-    @PostMapping
-    public ResponseEntity<DtoBooking> createBooking(@RequestBody DtoBooking newBooking) {
-        return bookingService.createBooking(newBooking);
+    @PostMapping("/create")
+    public ResponseEntity<DtoBookingIU> createBooking(@RequestBody DtoBookingIU dtoBookingIU) {
+        return bookingService.createBooking(dtoBookingIU);
     }
 
     @PutMapping("/{id}")

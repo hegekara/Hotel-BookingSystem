@@ -45,7 +45,8 @@ public class SecurityConfig {
                 "/rest/api/personel/login",
                 "/rest/api/personel/register"
                 ).permitAll()
-                .requestMatchers("/rest/api/room/**").authenticated()
+                .requestMatchers("/rest/api/room/**",
+                "/rest/api/booking/**").authenticated()
                 .anyRequest().authenticated()
             )
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
