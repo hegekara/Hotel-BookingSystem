@@ -25,9 +25,9 @@ function ListRoom() {
   return (
     <div>
       {isLoggedIn && (
-        <>    
+        <>
           <Header isLoggedIn={isLoggedIn} />
-          <div style={{ padding: "4rem", paddingTop:"4rem" }}>
+          <div style={{ padding: "4rem", paddingTop: "4rem" }}>
             <h2>Available Rooms</h2>
             <Room
               rooms={rooms}

@@ -16,7 +16,7 @@ const Home = () => {
   return (
 
     <div className="homepage-img">
-      <Header isLoggedIn = {isLoggedIn}/>
+      <Header isLoggedIn={isLoggedIn} />
       <img src="../src/static/images/homepage-img.jpeg" alt="Hotel Image" />
       <div className="content">
         <h1>Welcome to Our Hotel</h1>

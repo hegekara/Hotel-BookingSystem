@@ -50,8 +50,8 @@ public class BookingControllerImpl implements IBookingController{
         return bookingService.cancelBooking(id);
     }
 
-    @GetMapping("/customer/{customerId}")
-    public ResponseEntity<List<DtoBooking>> getBookingsByCustomerId(@PathVariable Long customerId) {
-        return bookingService.getBookingsByCustomerId(customerId);
+    @GetMapping("/customer/{email}")
+    public ResponseEntity<List<DtoBooking>> getBookingsByCustomerEmail(@PathVariable String email) {
+        return bookingService.getBookingsByCustomerEmail(email);
     }
 }

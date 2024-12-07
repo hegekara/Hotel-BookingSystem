@@ -49,9 +49,11 @@ function Room({ rooms, checkInDate, checkOutDate }) {
                 className="room-image" 
               />
               <div className="room-details">
-                <p><strong>Room Number:</strong> {room.roomNumber}</p>
-                <p><strong>Capacity:</strong> {room.capacity}</p>
+                <p><strong>Room:</strong> {room.roomNumber}</p>
                 <p><strong>Room Type:</strong> {room.roomType}</p>
+                <p><strong>Capacity:</strong> {room.capacity}</p>
+                <p><strong>Bed Type:</strong> {room.bedType}</p>
+                <p><strong>Has View:</strong> {room.hasView ? 'Yes' : 'No'}</p>
                 <p><strong>Price:</strong> ${room.pricePerNight}</p>
                 <button className="reserve-button" onClick={() => handleReserve(room.roomNumber)}>
                   Reserve

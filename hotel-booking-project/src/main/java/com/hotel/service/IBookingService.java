@@ -13,11 +13,11 @@ public interface IBookingService {
 
     public ResponseEntity<DtoBooking> getBookingById(Long id);
 
-public ResponseEntity<DtoBookingIU> createBooking(DtoBookingIU dtoBookingIU);
+    public ResponseEntity<DtoBookingIU> createBooking(DtoBookingIU dtoBookingIU);
 
     public ResponseEntity<DtoBooking> updateBooking(Long id, DtoBooking updatedBooking);
 
     public ResponseEntity<String> cancelBooking(Long id);
 
-    public ResponseEntity<List<DtoBooking>> getBookingsByCustomerId(Long customerId);
+    public ResponseEntity<List<DtoBooking>> getBookingsByCustomerEmail(String email);
 }

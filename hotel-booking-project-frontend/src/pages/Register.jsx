@@ -14,8 +14,8 @@ const Register = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if(localStorage.getItem("jwtToken")) {
-        navigate("/home");
+    if (localStorage.getItem("jwtToken")) {
+      navigate("/home");
     }
   }, [navigate])
 
@@ -94,8 +94,8 @@ const Register = () => {
         {error && <p style={{ color: "red" }}>{error}</p>}
       </div>
     </div>
-    
-    
+
+
   );
 };
 

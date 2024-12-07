@@ -23,9 +23,9 @@ function RoomDetail() {
 
   const rooms = [
     {
-        name: "Standard",
-        image: StandartImg,
-        description: "Rahat bir konaklama için tüm temel olanaklara sahip konforlu standart oda.",
+      name: "Standard",
+      image: StandartImg,
+      description: "Rahat bir konaklama için tüm temel olanaklara sahip konforlu standart oda.",
     },
     {
       name: "Suite",

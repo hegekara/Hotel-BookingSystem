@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,9 +87,6 @@ public class BookingServiceImpl implements IBookingService {
             booking.setStatus(BookingStatus.ACCEPTED);
             booking.setBookingDate(LocalDate.now());
 
-            room.setAvailable(false);
-            roomRepository.save(room);
-
             bookingRepository.save(booking);
 
             return ResponseEntity.ok().body(dtoBookingIU);
@@ -127,11 +125,13 @@ public class BookingServiceImpl implements IBookingService {
     @Override
     public ResponseEntity<String> cancelBooking(Long id) {
         Optional<Booking> optionalBooking = bookingRepository.findById(id);
+        System.out.println("5");
 
         if (optionalBooking.isPresent()) {
             try {
+                System.out.println("4");
                 bookingRepository.delete(optionalBooking.get());
-                return ResponseEntity.ok("Booking with ID " + id + " has been canceled successfully.");
+                return ResponseEntity.ok("Booking has been canceled successfully.");
             } catch (Exception e) {
                 return ResponseEntity.badRequest().body("Failed to cancel the booking.");
             }
@@ -141,19 +141,20 @@ public class BookingServiceImpl implements IBookingService {
     }
 
     @Override
-    public ResponseEntity<List<DtoBooking>> getBookingsByCustomerId(Long customerId) {
-        List<Booking> bookingList = bookingRepository.findByCustomerId(customerId);
+    public ResponseEntity<List<DtoBooking>> getBookingsByCustomerEmail(String email) {
+        System.out.println("b");
+        List<Booking> bookingList = bookingRepository.findByCustomer_Email(email);
 
         if (!bookingList.isEmpty()) {
-            List<DtoBooking> dtoBookingList = new ArrayList<>();
-            for (Booking booking : bookingList) {
+            List<DtoBooking> dtoBookingList = bookingList.stream().map(booking -> {
                 DtoBooking dtoBooking = new DtoBooking();
                 BeanUtils.copyProperties(booking, dtoBooking);
-                dtoBookingList.add(dtoBooking);
-            }
+                return dtoBooking;
+            }).collect(Collectors.toList());
+
             return ResponseEntity.ok().body(dtoBookingList);
         }
 
-        return ResponseEntity.status(404).body(null);
+        return ResponseEntity.badRequest().body(null);
     }
 }

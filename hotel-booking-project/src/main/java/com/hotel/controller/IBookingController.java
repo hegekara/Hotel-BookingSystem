@@ -18,5 +18,5 @@ public interface IBookingController {
 
     public ResponseEntity<String> cancelBooking(Long id);
 
-    public ResponseEntity<List<DtoBooking>> getBookingsByCustomerId(Long customerId);
+    public ResponseEntity<List<DtoBooking>> getBookingsByCustomerEmail(String email);
 }
