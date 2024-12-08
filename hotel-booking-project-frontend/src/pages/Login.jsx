@@ -33,10 +33,12 @@ const Login = () => {
 
       const token = response.data.token;
       const email = response.data.object.email;
+      const role = (response.data.object.role).toLowerCase();
 
       if (token) {
         localStorage.setItem("jwtToken", token);
         localStorage.setItem("email", email);
+        localStorage.setItem("role", role);
         navigate("/home");
       }
     } catch (error) {

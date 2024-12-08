@@ -16,7 +16,7 @@ function ListRoom() {
   useEffect(() => {
     const token = localStorage.getItem("jwtToken");
     setIsLoggedIn(!!token);
-
+    
     if (!token) {
       navigate("/");
     }

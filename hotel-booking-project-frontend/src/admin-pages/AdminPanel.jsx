@@ -19,7 +19,7 @@ const AdminPanel = () => {
   return (
 
     <div className="homepage-img">
-      <Header isLoggedIn={isLoggedIn} />
+      <Header isLoggedIn={isLoggedIn}/>
       <img src="../src/static/images/admin-background.jpeg" alt="Hotel Image" />
       <div className="content">
         <h1>Welcome to Admin Panel</h1>

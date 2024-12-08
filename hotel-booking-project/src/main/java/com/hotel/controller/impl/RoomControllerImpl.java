@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hotel.constants.BedType;
 import com.hotel.constants.RoomType;
 import com.hotel.controller.IRoomController;
 import com.hotel.dto.DtoRoom;
@@ -31,27 +32,28 @@ public class RoomControllerImpl implements IRoomController{
 
     @GetMapping("/list")
     public ResponseEntity<List<DtoRoom>> getAllRooms() {
+        System.out.println("1");
         return roomService.getAllRooms();
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<DtoRoom> getRoomById(@PathVariable Long id) {
-        return roomService.getRoomById(id);
+    @GetMapping("/{roomNumber}")
+    public ResponseEntity<DtoRoom> getRoomByRoomNumber(@PathVariable String roomNumber) {
+        return roomService.getRoomByRoomNumber(roomNumber);
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<DtoRoom> createRoom(@RequestBody DtoRoom newRoom) {
         return roomService.createRoom(newRoom);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<DtoRoom> updateRoom(@PathVariable Long id, @RequestBody DtoRoom updatedRoom) {
-        return roomService.updateRoom(id, updatedRoom);
+    @PutMapping("/{roomNumber}")
+    public ResponseEntity<DtoRoom> updateRoom(@PathVariable String roomNumber, @RequestBody DtoRoom updatedRoom) {
+        return roomService.updateRoom(roomNumber, updatedRoom);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteRoom(@PathVariable Long id) {
-        return roomService.deleteRoom(id);
+    @DeleteMapping("/{roomNumber}")
+    public ResponseEntity<String> deleteRoom(@PathVariable String roomNumber) {
+        return roomService.deleteRoom(roomNumber);
     }
 
     @GetMapping("/filter")
@@ -67,10 +69,17 @@ public class RoomControllerImpl implements IRoomController{
 
     @GetMapping("/room-types")
     public ResponseEntity<List<String>> getRoomTypes() {
-        System.out.println("a");
         List<String> roomTypes = Arrays.stream(RoomType.values())
                                     .map(Enum::name)
                                     .collect(Collectors.toList());
         return ResponseEntity.ok(roomTypes);
+    }
+
+    @GetMapping("/bed-types")
+    public ResponseEntity<List<String>> getBedTypes() {
+        List<String> bedTypes = Arrays.stream(BedType.values())
+                                    .map(Enum::name)
+                                    .collect(Collectors.toList());
+        return ResponseEntity.ok(bedTypes);
     }
 }

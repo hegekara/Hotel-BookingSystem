@@ -1,5 +1,7 @@
 package com.hotel.dto.user;
 
+import com.hotel.constants.Role;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,4 +18,6 @@ public class DtoCustomer {
     private String email;
 
     private String phoneNumber;
+
+    private Role role;
 }
