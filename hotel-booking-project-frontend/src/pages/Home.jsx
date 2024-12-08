@@ -19,11 +19,12 @@ const Home = () => {
       <Header isLoggedIn={isLoggedIn} />
       <img src="../src/static/images/homepage-img.jpeg" alt="Hotel Image" />
       <div className="content">
-        <h1>Welcome to Our Hotel</h1>
+        <h1>Welcome to Ege Hotel</h1>
         {!isLoggedIn && (
           <div className="auth-buttons">
             <Link to="/login" className="home-button">Login</Link>
-            <Link to="/register" className="home-button">Register</Link>
+            <Link to="/register" className="home-button">Register</Link><br /><br /><br />
+            <Link to="/personel-login" className="home-button">Personel Login</Link>
           </div>
         )}
         {isLoggedIn && (

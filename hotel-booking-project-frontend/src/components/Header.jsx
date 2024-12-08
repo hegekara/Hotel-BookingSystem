@@ -13,8 +13,8 @@ const Header = ({ isLoggedIn }) => {
 
   const logOut = () => {
     localStorage.clear();
-    window.location.reload();
     navigate("/home");
+    window.location.reload();
   };
 
   return (
