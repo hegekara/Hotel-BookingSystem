@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -84,7 +85,7 @@ public class BookingServiceImpl implements IBookingService {
             booking.setRoom(room);
             booking.setCheckInDate(dtoBookingIU.getCheckInDate());
             booking.setCheckOutDate(dtoBookingIU.getCheckOutDate());
-            booking.setStatus(BookingStatus.ACCEPTED);
+            booking.setStatus(BookingStatus.WAITING);
             booking.setBookingDate(LocalDate.now());
 
             bookingRepository.save(booking);
@@ -142,7 +143,7 @@ public class BookingServiceImpl implements IBookingService {
 
     @Override
     public ResponseEntity<List<DtoBooking>> getBookingsByCustomerEmail(String email) {
-        System.out.println("b");
+
         List<Booking> bookingList = bookingRepository.findByCustomer_Email(email);
 
         if (!bookingList.isEmpty()) {
@@ -156,5 +157,47 @@ public class BookingServiceImpl implements IBookingService {
         }
 
         return ResponseEntity.badRequest().body(null);
+    }
+
+    @Override
+    public ResponseEntity<String> acceptReservation(Long id) {
+        try {
+            Optional<Booking> optionalBooking = bookingRepository.findById(id);
+    
+            if (optionalBooking.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Booking not found with id: " + id);
+            }
+            
+            Booking booking = optionalBooking.get();
+            booking.setStatus(BookingStatus.ACCEPTED);
+            bookingRepository.save(booking);
+    
+            return ResponseEntity.ok("Room reservation accepted successfully.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                                 .body("An error occurred while accepting the reservation.");
+        }
+    }
+
+
+    @Override
+    public ResponseEntity<String> rejectReservation(Long id) {
+        try {
+            Optional<Booking> optionalBooking = bookingRepository.findById(id);
+            
+            if (optionalBooking.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Booking not found with id: " + id);
+            }
+            
+            Booking booking = optionalBooking.get();
+            booking.setStatus(BookingStatus.REJECTED);
+            bookingRepository.save(booking);
+            bookingRepository.delete(booking);
+            
+            return ResponseEntity.ok("Room reservation rejected successfully.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                                 .body("An error occurred while rejecting the reservation.");
+        }
     }
 }

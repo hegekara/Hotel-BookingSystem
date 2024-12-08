@@ -32,7 +32,7 @@ const PersonelLogin = () => {
       if (token) {
         localStorage.setItem("jwtToken", token);
         localStorage.setItem("email", email);
-        localStorage.setItem("role", role);
+        localStorage.setItem("role", role.toLowerCase());
         navigate("/admin-panel");
       }
     } catch (error) {

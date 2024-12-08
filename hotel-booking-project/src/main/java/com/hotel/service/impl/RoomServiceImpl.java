@@ -3,7 +3,6 @@ package com.hotel.service.impl;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,9 @@ import org.springframework.stereotype.Service;
 
 import com.hotel.constants.RoomType;
 import com.hotel.dto.DtoRoom;
+import com.hotel.entities.Booking;
 import com.hotel.entities.Room;
+import com.hotel.repository.IBookingRepository;
 import com.hotel.repository.IRoomRepository;
 import com.hotel.service.IRoomService;
 
@@ -21,6 +22,9 @@ public class RoomServiceImpl implements IRoomService {
 
     @Autowired
     private IRoomRepository roomRepository;
+
+    @Autowired
+    private IBookingRepository bookingRepository;
 
     @Override
     public ResponseEntity<List<DtoRoom>> getAllRooms() {
@@ -38,10 +42,9 @@ public class RoomServiceImpl implements IRoomService {
     }
 
     @Override
-    public ResponseEntity<DtoRoom> getRoomById(Long id) {
-        Optional<Room> optional = roomRepository.findById(id);
-        if (optional.isPresent()) {
-            Room room = optional.get();
+    public ResponseEntity<DtoRoom> getRoomByRoomNumber(String roomNumber) {
+        Room room = roomRepository.findByRoomNumber(roomNumber);
+        if (room != null) {
             DtoRoom dtoRoom = new DtoRoom();
             BeanUtils.copyProperties(room, dtoRoom);
             return ResponseEntity.ok().body(dtoRoom);
@@ -67,11 +70,10 @@ public class RoomServiceImpl implements IRoomService {
     }
 
     @Override
-    public ResponseEntity<DtoRoom> updateRoom(Long id, DtoRoom updatedRoom) {
-        Optional<Room> option = roomRepository.findById(id);
+    public ResponseEntity<DtoRoom> updateRoom(String roomNumber, DtoRoom updatedRoom) {
+        Room room = roomRepository.findByRoomNumber(roomNumber);
 
-        if (option.isPresent()) {
-            Room room = option.get();
+        if (room!=null) {
             room.setRoomNumber(updatedRoom.getRoomNumber());
             room.setAvailable(updatedRoom.isAvailable());
             room.setBedType(updatedRoom.getBedType());
@@ -92,19 +94,22 @@ public class RoomServiceImpl implements IRoomService {
     }
 
     @Override
-    public ResponseEntity<String> deleteRoom(Long id) {
-        Optional<Room> option = roomRepository.findById(id);
-
-        if (option.isPresent()) {
-            Room room = option.get();
+    public ResponseEntity<String> deleteRoom(String roomNumber) {
+        Room room = roomRepository.findByRoomNumber(roomNumber);
+    
+        if (room != null) {
             try {
-                roomRepository.delete(room);
-                return ResponseEntity.ok("Room with ID " + id + " has been deleted successfully.");
+                List<Booking> bookings = bookingRepository.findByRoom_RoomNumber(roomNumber);
+                if (bookings.isEmpty()) {
+                    roomRepository.delete(room);
+                    return ResponseEntity.ok("Room " + roomNumber + " has been deleted successfully.");
+                }
+                return ResponseEntity.badRequest().body("Room " + roomNumber + " has active bookings and cannot be deleted.");
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Room could not be deleted due to server error.");
             }
         }
-        return ResponseEntity.badRequest().body("Room with ID " + id + " could not be found.");
+        return ResponseEntity.badRequest().body("Room " + roomNumber + " could not be found.");
     }
 
     public ResponseEntity<List<DtoRoom>> findAvailableRooms(RoomType roomType, String bedType, Boolean hasView, LocalDate checkInDate, LocalDate checkOutDate) {

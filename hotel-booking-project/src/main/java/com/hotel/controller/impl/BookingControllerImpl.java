@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -53,5 +54,16 @@ public class BookingControllerImpl implements IBookingController{
     @GetMapping("/customer/{email}")
     public ResponseEntity<List<DtoBooking>> getBookingsByCustomerEmail(@PathVariable String email) {
         return bookingService.getBookingsByCustomerEmail(email);
+    }
+
+    @PatchMapping("/accept/{id}")
+    public ResponseEntity<String> acceptReservation(@PathVariable Long id){
+        System.out.println("\n\na");
+        return bookingService.acceptReservation(id);
+    }
+
+    @PatchMapping("/reject/{id}")
+    public ResponseEntity<String> rejcetReservation(@PathVariable Long id){
+        return bookingService.rejectReservation(id);
     }
 }

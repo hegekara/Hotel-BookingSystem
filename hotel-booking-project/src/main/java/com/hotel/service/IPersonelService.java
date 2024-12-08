@@ -20,7 +20,7 @@ public interface IPersonelService {
 
     public ResponseEntity<DtoPersonel> updatePersonel(Long id, DtoPersonelIU updatedPersonel);
 
-    public ResponseEntity<String> deletePersonel(Long id);
+    public ResponseEntity<String> deletePersonel(String email);
 
     public ResponseEntity<String> changePassword(Long id, String oldPassword, String newPassword);
 }

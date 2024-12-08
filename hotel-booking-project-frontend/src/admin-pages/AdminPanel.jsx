@@ -19,7 +19,7 @@ const AdminPanel = () => {
   return (
 
     <div className="homepage-img">
-      <Header isLoggedIn={isLoggedIn} />
+      <Header isLoggedIn={isLoggedIn}/>
       <img src="../src/static/images/admin-background.jpeg" alt="Hotel Image" />
       <div className="content">
         <h1>Welcome to Admin Panel</h1>
@@ -33,7 +33,7 @@ const AdminPanel = () => {
             <p className="desc">Users and bookings can be managed from the admin panel</p>
             <Link to="/admin-list-room" className="home-button">Manage Room</Link>
             <Link to="/admin-list-booking" className="home-button">Manage Booking</Link>
-            {(role === "admin" || role === "manager") && (
+            {(role === "admin") && (
               <>
                 <Link to="/list-personel" className="home-button">Manage Personel</Link>
               </>

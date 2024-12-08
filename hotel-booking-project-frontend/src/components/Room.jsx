@@ -1,8 +1,12 @@
 import React from 'react';
+import {useState, useEffect} from 'react';
+import { Link, useNavigate } from "react-router-dom";
 import '../styles/Room.css';
 import API from '../api';
 
 function Room({ rooms, checkInDate, checkOutDate }) {
+  const [role, setRole] = useState(localStorage.getItem("role") || " ");
+
   const getRoomImage = (roomType) => {
     switch (roomType.toLowerCase()) {
       case 'deluxe':
@@ -10,23 +14,26 @@ function Room({ rooms, checkInDate, checkOutDate }) {
       case 'standart':
         return 'src/static/images/standart-room.jpeg';
       case 'suite':
-        return 'src/static/images/suit-room.jpeg';
+        return 'src/static/images/suit-room.png';
       default:
         return 'src/static/images/standart-room.jpeg';
     }
   }
+
+  useEffect(() => {
+    const role = (localStorage.getItem("role")).toLowerCase();
+    setRole(role);
+  }, []);
   
   const handleReserve = async (roomNumber) => {
     try {
       const reservation = {
         email: localStorage.getItem("email"),
         roomNumber: roomNumber,
-        checkInDate: checkInDate,
-        checkOutDate: checkOutDate,
+        checkInDate: checkInDate || "",
+        checkOutDate: checkOutDate || "",
         status: " ",
       };
-
-      console.log(reservation.email);
 
       const response = await API.post('/booking/create', reservation);
       console.log('Reservation successful:', response.data);
@@ -36,6 +43,7 @@ function Room({ rooms, checkInDate, checkOutDate }) {
       alert('Failed to reserve room. Please try again.');
     }
   };
+
 
   return (
     <div>
@@ -54,10 +62,16 @@ function Room({ rooms, checkInDate, checkOutDate }) {
                 <p><strong>Capacity:</strong> {room.capacity}</p>
                 <p><strong>Bed Type:</strong> {room.bedType}</p>
                 <p><strong>Has View:</strong> {room.hasView ? 'Yes' : 'No'}</p>
+                <p><strong>Is Available Now:</strong> {room.available ? 'Yes' : 'No'}</p>
                 <p><strong>Price:</strong> ${room.pricePerNight}</p>
-                <button className="reserve-button" onClick={() => handleReserve(room.roomNumber)}>
-                  Reserve
-                </button>
+                {(role ==="customer") && (
+                  <button className="reserve-button" onClick={() => handleReserve(room.roomNumber)}>
+                    Reserve
+                  </button>
+                )}
+                {(role === "admin" || role === "manager" || role === "personel") && (
+                  <Link style={{width: "90%"}} to={`/edit-room/${room.roomNumber}`} className="reserve-button">Edit Room</Link>
+                )}
               </div>
             </div>
           ))}

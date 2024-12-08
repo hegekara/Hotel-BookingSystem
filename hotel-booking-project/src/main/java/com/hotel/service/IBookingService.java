@@ -20,4 +20,8 @@ public interface IBookingService {
     public ResponseEntity<String> cancelBooking(Long id);
 
     public ResponseEntity<List<DtoBooking>> getBookingsByCustomerEmail(String email);
+
+    public ResponseEntity<String> acceptReservation(Long id);
+
+    public ResponseEntity<String> rejectReservation(Long id);
 }

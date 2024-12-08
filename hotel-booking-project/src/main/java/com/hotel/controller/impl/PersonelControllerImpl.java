@@ -1,6 +1,8 @@
 package com.hotel.controller.impl;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hotel.constants.Role;
 import com.hotel.controller.IPersonelController;
 import com.hotel.dto.DtoResponse;
 import com.hotel.dto.user.DtoPersonel;
@@ -38,7 +41,7 @@ public class PersonelControllerImpl implements IPersonelController{
         return personelService.loginPersonel(email, password);
     }
 
-    @GetMapping("/all")
+    @GetMapping("/list")
     public ResponseEntity<List<DtoPersonel>> getAllPersonel() {
         return personelService.getAllPersonels();
     }
@@ -55,9 +58,9 @@ public class PersonelControllerImpl implements IPersonelController{
         return personelService.updatePersonel(id, updatedPersonel);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deletePersonel(@PathVariable Long id) {
-        return personelService.deletePersonel(id);
+    @DeleteMapping("/delete/{email}")
+    public ResponseEntity<String> deletePersonel(@PathVariable String email) {
+        return personelService.deletePersonel(email);
     }
 
     @PatchMapping("/{id}/password")
@@ -66,5 +69,13 @@ public class PersonelControllerImpl implements IPersonelController{
             @RequestParam(name = "oldPassword", required = true) String oldPassword,
             @RequestParam(name = "newPassword", required = true) String newPassword) {
         return personelService.changePassword(id, oldPassword, newPassword);
+    }
+
+    @GetMapping("/roles")
+    public ResponseEntity<List<String>> getRoles() {
+        List<String> roles = Arrays.stream(Role.values())
+                                    .map(Enum::name)
+                                    .collect(Collectors.toList());
+        return ResponseEntity.ok(roles);
     }
 }

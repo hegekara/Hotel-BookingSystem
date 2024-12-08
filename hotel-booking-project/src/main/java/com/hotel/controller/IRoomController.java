@@ -12,15 +12,17 @@ public interface IRoomController {
 
     public ResponseEntity<List<DtoRoom>> getAllRooms();
 
-    public ResponseEntity<DtoRoom> getRoomById(Long id);
+    public ResponseEntity<DtoRoom> getRoomByRoomNumber(String roomNumber);
 
     public ResponseEntity<DtoRoom> createRoom(DtoRoom newRoom);
 
-    public ResponseEntity<DtoRoom> updateRoom(Long id, DtoRoom updatedRoom);
+    public ResponseEntity<DtoRoom> updateRoom(String roomNumber, DtoRoom updatedRoom);
 
-    public ResponseEntity<String> deleteRoom(Long id);
+    public ResponseEntity<String> deleteRoom(String roomNumber);
 
     public ResponseEntity<List<DtoRoom>> getAvailableRooms(RoomType roomType, String bedType, Boolean hasView, LocalDate checkInDate, LocalDate checkOutDate);
 
     public ResponseEntity<List<String>> getRoomTypes();
+
+    public ResponseEntity<List<String>> getBedTypes();
 }

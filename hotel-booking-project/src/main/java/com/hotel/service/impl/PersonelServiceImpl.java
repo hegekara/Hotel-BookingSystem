@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.hotel.constants.Role;
 import com.hotel.dto.DtoResponse;
 import com.hotel.dto.user.DtoPersonel;
 import com.hotel.dto.user.DtoPersonelIU;
@@ -44,7 +43,6 @@ public class PersonelServiceImpl implements IPersonelService{
     
             BeanUtils.copyProperties(dtoPersonelIU, personel);
             personel.setStartingDate(LocalDate.now());
-            personel.setRole(Role.PERSONEL);
             personelRepository.save(personel);
     
             DtoPersonel dtoPersonel = new DtoPersonel();
@@ -67,7 +65,7 @@ public class PersonelServiceImpl implements IPersonelService{
                 BeanUtils.copyProperties(personel, dtoPersonel);
                 
                 String token = jwtUtil.generateToken(email, personel.getRole());
-                return ResponseEntity.ok(new DtoResponse(dtoPersonel,"Bearer " + token, "login succsessful"));
+                return ResponseEntity.ok(new DtoResponse(dtoPersonel, token, "login succsessful"));
             }
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
@@ -130,14 +128,14 @@ public class PersonelServiceImpl implements IPersonelService{
 
 
     @Override
-    public ResponseEntity<String> deletePersonel(Long id) {
-        Optional<Personel> existingPersonel = personelRepository.findById(id);
+    public ResponseEntity<String> deletePersonel(String email) {
+        Personel personel = personelRepository.findByEmail(email);
     
-        if (existingPersonel.isPresent()) {
-            personelRepository.deleteById(id);
-            return ResponseEntity.ok("Personel with ID " + id + " has been deleted successfully.");
+        if (personel != null) {
+            personelRepository.delete(personel);
+            return ResponseEntity.ok("Personel has been deleted successfully.");
         } 
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Personel with ID " + id + " not found.");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Personel not found.");
     }
 
 
