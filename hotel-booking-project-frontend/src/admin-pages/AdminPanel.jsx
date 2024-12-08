@@ -33,7 +33,7 @@ const AdminPanel = () => {
             <p className="desc">Users and bookings can be managed from the admin panel</p>
             <Link to="/admin-list-room" className="home-button">Manage Room</Link>
             <Link to="/admin-list-booking" className="home-button">Manage Booking</Link>
-            {(role === "admin" || role === "manager") && (
+            {(role === "admin") && (
               <>
                 <Link to="/list-personel" className="home-button">Manage Personel</Link>
               </>
