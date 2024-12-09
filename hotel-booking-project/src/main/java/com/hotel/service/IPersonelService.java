@@ -16,11 +16,11 @@ public interface IPersonelService {
 
     public ResponseEntity<List<DtoPersonel>> getAllPersonels();
 
-    public ResponseEntity<DtoPersonel> getPersonelById(Long id);
+    public ResponseEntity<DtoPersonel> getPersonelByEmail(String email);
 
-    public ResponseEntity<DtoPersonel> updatePersonel(Long id, DtoPersonelIU updatedPersonel);
+    public ResponseEntity<DtoPersonel> updatePersonel(String email, DtoPersonelIU updatedPersonel);
 
     public ResponseEntity<String> deletePersonel(String email);
 
-    public ResponseEntity<String> changePassword(Long id, String oldPassword, String newPassword);
+    public ResponseEntity<String> changePassword(String email, String oldPassword, String newPassword);
 }

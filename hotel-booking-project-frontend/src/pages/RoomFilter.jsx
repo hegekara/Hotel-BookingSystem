@@ -10,9 +10,15 @@ function RoomFilter() {
   const [checkInDate, setCheckInDate] = useState("");
   const [checkOutDate, setCheckOutDate] = useState("");
   const [selectedRoomType, setSelectedRoomType] = useState("");
+  const [role] = useState(localStorage.getItem("role"));
   const navigate = useNavigate();
 
   useEffect(() => {
+
+    if((role=="admin")|| (role=="manager")|| (role=="personel")){
+      navigate("/admin-panel")
+    }
+
     const fetchEnums = async () => {
       try {
         const roomTypesResponse = await API.get("/room/room-types");

@@ -11,10 +11,15 @@ function RoomDetail() {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [role] = useState(localStorage.getItem("role"));
 
   useEffect(() => {
     const token = localStorage.getItem("jwtToken");
     setIsLoggedIn(!!token);
+
+    if((role=="admin")|| (role=="manager")|| (role=="personel")){
+      navigate("/admin-panel")
+    }
 
     if (!token) {
       navigate("/");

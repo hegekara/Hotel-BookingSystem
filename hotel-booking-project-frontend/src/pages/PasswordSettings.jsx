@@ -10,12 +10,15 @@ function PasswordSettings() {
   const [newPassword, setNewPassword] = useState("");
   const [newPassword2, setNewPassword2] = useState("");
   const [email] = useState(localStorage.getItem("email"));
+  const [role, setRole] = useState(localStorage.getItem("role"));
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem("jwtToken");
+    const role = localStorage.getItem("role");
     setIsLoggedIn(!!token);
+    setRole(role);
 
     if (!token) {
       navigate("/");
@@ -35,28 +38,57 @@ function PasswordSettings() {
       return;
     }
 
-    try {
-      const response = await API.patch(`/customer/${email}/password`, null, {
-        params: {
-          oldPassword: currentPassword,
-          newPassword: newPassword,
-        },
-      });
-
-      if (response.status === 200) {
-        setMessage("Şifre başarıyla değiştirildi!");
-        setCurrentPassword("");
-        setNewPassword("");
-        setNewPassword2("");
-      } else {
-        setMessage("Şifre değiştirme başarısız oldu. Tekrar deneyin.");
+    if(role === "customer"){
+      try {
+        const response = await API.patch(`/customer/${email}/password`, null, {
+          params: {
+            oldPassword: currentPassword,
+            newPassword: newPassword,
+          },
+        });
+  
+        if (response.status === 200) {
+          setMessage("Şifre başarıyla değiştirildi!");
+          setCurrentPassword("");
+          setNewPassword("");
+          setNewPassword2("");
+        } else {
+          setMessage("Şifre değiştirme başarısız oldu. Tekrar deneyin.");
+        }
+      } catch (error) {
+        console.error("Şifre değiştirme hatası:", error);
+        if (error.response && error.response.status === 401) {
+          setMessage("Mevcut şifre hatalı.");
+        } else {
+          setMessage("Bir hata oluştu. Lütfen daha sonra tekrar deneyin.");
+        }
       }
-    } catch (error) {
-      console.error("Şifre değiştirme hatası:", error);
-      if (error.response && error.response.status === 401) {
-        setMessage("Mevcut şifre hatalı.");
-      } else {
-        setMessage("Bir hata oluştu. Lütfen daha sonra tekrar deneyin.");
+    }
+
+    if((role=="admin")|| (role=="manager")|| (role=="personel")){
+      try {
+        const response = await API.patch(`/personel/${email}/password`, null, {
+          params: {
+            oldPassword: currentPassword,
+            newPassword: newPassword,
+          },
+        });
+  
+        if (response.status === 200) {
+          setMessage("Şifre başarıyla değiştirildi!");
+          setCurrentPassword("");
+          setNewPassword("");
+          setNewPassword2("");
+        } else {
+          setMessage("Şifre değiştirme başarısız oldu. Tekrar deneyin.");
+        }
+      } catch (error) {
+        console.error("Şifre değiştirme hatası:", error);
+        if (error.response && error.response.status === 401) {
+          setMessage("Mevcut şifre hatalı.");
+        } else {
+          setMessage("Bir hata oluştu. Lütfen daha sonra tekrar deneyin.");
+        }
       }
     }
   };

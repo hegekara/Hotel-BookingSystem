@@ -6,12 +6,17 @@ import Booking from '../components/Booking';
 
 function ListBooking() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [role] = useState(localStorage.getItem("role"));
     const [bookings, setBookings] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
         const token = localStorage.getItem("jwtToken");
         setIsLoggedIn(!!token);
+
+        if((role=="admin")|| (role=="manager")|| (role=="personel")){
+            navigate("/admin-panel")
+        }
     
         if (!token) {
             navigate("/");

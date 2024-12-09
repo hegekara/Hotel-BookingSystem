@@ -7,6 +7,7 @@ import "../styles/Profile.css";
 function Profile() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [email, setEmail] = useState(localStorage.getItem("email") || "");
+    const [role, setRole] = useState(localStorage.getItem("role") || "");
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
@@ -14,34 +15,54 @@ function Profile() {
 
     useEffect(() => {
         const token = localStorage.getItem("jwtToken");
+        const role = localStorage.getItem("role");
         setIsLoggedIn(!!token);
+        setIsLoggedIn(role);
 
-        if (!token) {
-            navigate("/");
-        } else if (email) {
-            API.get(`/customer/${email}`)
-                .then((response) => {
-                    const customer = response.data;
-                    setEmail(customer.email);
-                    setFirstName(customer.firstName);
-                    setLastName(customer.lastName);
-                    setPhoneNumber(customer.phoneNumber);
-                })
-                .catch((error) => {
-                    console.error("Error fetching customer data:", error);
-                });
+        if(role==="customer"){
+            if (!token) {
+                navigate("/");
+            } else if (email) {
+                API.get(`/customer/${email}`)
+                    .then((response) => {
+                        const customer = response.data;
+                        setEmail(customer.email);
+                        setFirstName(customer.firstName);
+                        setLastName(customer.lastName);
+                        setPhoneNumber(customer.phoneNumber);
+                    })
+                    .catch((error) => {
+                        console.error("Error fetching customer data:", error);
+                    });
+            }
+        }else if((role=="admin")|| (role=="manager")|| (role=="personel")){
+            API.get(`/personel/${email}`)
+            .then((response) => {
+                console.log(response);
+                
+                const personel = response.data;
+                setEmail(personel.email);
+                setFirstName(personel.firstName);
+                setLastName(personel.lastName);
+                setPhoneNumber(personel.phoneNumber);
+            })
+            .catch((error) => {
+                console.error("Error fetching customer data:", error);
+            });
         }
+
     }, [email, navigate]);
 
     const handleUpdate = (e) => {
         e.preventDefault();
 
-        API.put(`/customer/update/${email}`, {
-            email,
-            firstName,
-            lastName,
-            phoneNumber,
-        })
+        if(role==="customer"){
+            API.put(`/customer/update/${email}`, {
+                email,
+                firstName,
+                lastName,
+                phoneNumber,
+            })
             .then(() => {
                 alert("Profile updated successfully!");
             })
@@ -49,13 +70,34 @@ function Profile() {
                 console.error("Error updating profile:", error);
                 alert("Failed to update profile.");
             });
+        }
+
+        if((role=="admin")|| (role=="manager")|| (role=="personel")){
+            API.put(`/personel/update/${email}`, {
+                email,
+                firstName,
+                lastName,
+                phoneNumber,
+            })
+            .then(() => {
+                alert("Profile updated successfully!");
+            })
+            .catch((error) => {
+                console.error("Error updating profile:", error);
+                alert("Failed to update profile.");
+            });
+        }
+
     };
 
     const handleDelete = () => {
         if (window.confirm("Are you sure you want to delete this profile?")) {
-            API.delete(`/customer/delete/${email}`)
+
+            if(role ==="customer"){
+                API.delete(`/customer/delete/${email}`)
                 .then(() => {
                     alert("Profile deleted successfully!");
+                    localStorage.clear();
                     navigate("/");
                 })
                 .catch((error) => {
@@ -66,6 +108,18 @@ function Profile() {
                         alert("Failed to delete profile.");
                     }
                 });
+            }else if((role=="admin")|| (role=="manager")|| (role=="personel")){
+                API.delete(`/personel/delete/${email}`)
+                .then(() => {
+                    alert("Profile deleted successfully!");
+                    localStorage.clear();
+                    navigate("/");
+                })
+                .catch((error) => {
+                    console.error("Error deleting profile:", error);
+                    alert("Failed to delete profile.");
+                });
+            }
         }
     };
 
