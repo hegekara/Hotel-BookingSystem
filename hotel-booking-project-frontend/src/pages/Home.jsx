@@ -6,11 +6,16 @@ import Header from "../components/Header";
 
 const Home = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [role] = useState(localStorage.getItem("role"));
   const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem("jwtToken");
     setIsLoggedIn(!!token);
+
+    if((role=="admin")|| (role=="manager")|| (role=="personel")){
+      navigate("/admin-panel")
+    }
   }, []);
 
   return (

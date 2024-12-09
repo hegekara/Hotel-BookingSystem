@@ -46,16 +46,16 @@ public class PersonelControllerImpl implements IPersonelController{
         return personelService.getAllPersonels();
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<DtoPersonel> getPersonelById(@PathVariable(name = "id", required = true) Long id) {
-        return personelService.getPersonelById(id);
+    @GetMapping("/{email}")
+    public ResponseEntity<DtoPersonel> getPersonelByEmail(@PathVariable(required = true) String email) {
+        return personelService.getPersonelByEmail(email);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/update/{email}")
     public ResponseEntity<DtoPersonel> updatePersonel(
-            @PathVariable(name = "id", required = true) Long id,
+            @PathVariable(required = true) String email,
             @RequestBody(required = true) DtoPersonelIU updatedPersonel) {
-        return personelService.updatePersonel(id, updatedPersonel);
+        return personelService.updatePersonel(email, updatedPersonel);
     }
 
     @DeleteMapping("/delete/{email}")
@@ -63,12 +63,12 @@ public class PersonelControllerImpl implements IPersonelController{
         return personelService.deletePersonel(email);
     }
 
-    @PatchMapping("/{id}/password")
+    @PatchMapping("/{email}/password")
     public ResponseEntity<String> changePassword(
-            @PathVariable Long id,
+            @PathVariable String email,
             @RequestParam(name = "oldPassword", required = true) String oldPassword,
             @RequestParam(name = "newPassword", required = true) String newPassword) {
-        return personelService.changePassword(id, oldPassword, newPassword);
+        return personelService.changePassword(email, oldPassword, newPassword);
     }
 
     @GetMapping("/roles")

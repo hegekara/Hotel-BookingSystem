@@ -3,7 +3,6 @@ package com.hotel.service.impl;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,11 +89,10 @@ public class PersonelServiceImpl implements IPersonelService{
 
 
     @Override
-    public ResponseEntity<DtoPersonel> getPersonelById(Long id) {
-        Optional<Personel> optional = personelRepository.findById(id);
+    public ResponseEntity<DtoPersonel> getPersonelByEmail(String email) {
+        Personel personel = personelRepository.findByEmail(email);
         
-        if(optional.isPresent()){
-            Personel personel = optional.get();
+        if(personel != null){
             DtoPersonel dtoPersonel = new DtoPersonel();
 
             BeanUtils.copyProperties(personel, dtoPersonel);
@@ -105,11 +103,10 @@ public class PersonelServiceImpl implements IPersonelService{
 
 
     @Override
-    public ResponseEntity<DtoPersonel> updatePersonel(Long id, DtoPersonelIU updatedPersonel) {
-        Optional<Personel> existingPersonel = personelRepository.findById(id);
+    public ResponseEntity<DtoPersonel> updatePersonel(String email, DtoPersonelIU updatedPersonel) {
+        Personel personel = personelRepository.findByEmail(email);
     
-        if (existingPersonel.isPresent()) {
-            Personel personel = existingPersonel.get();
+        if (personel != null) {
 
             personel.setFirstName(updatedPersonel.getFirstName());
             personel.setLastName(updatedPersonel.getLastName());
@@ -140,11 +137,10 @@ public class PersonelServiceImpl implements IPersonelService{
 
 
     @Override
-    public ResponseEntity<String> changePassword(Long id, String oldPassword, String newPassword) {
-        Optional<Personel> existingPersonel = personelRepository.findById(id);
+    public ResponseEntity<String> changePassword(String email, String oldPassword, String newPassword) {
+        Personel personel = personelRepository.findByEmail(email);
     
-        if (existingPersonel.isPresent()) {
-            Personel personel = existingPersonel.get();
+        if (personel != null) {
     
             if (passwordEncoder.matches(oldPassword, personel.getPassword())) {
                 personel.setPassword(passwordEncoder.encode(newPassword));
@@ -155,7 +151,7 @@ public class PersonelServiceImpl implements IPersonelService{
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Old password does not match.");
             }
         } else{
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Personel with ID " + id + " not found.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Personel not found.");
         }
     }
 }
