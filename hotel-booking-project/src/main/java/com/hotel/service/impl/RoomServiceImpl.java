@@ -58,6 +58,7 @@ public class RoomServiceImpl implements IRoomService {
             Room room = new Room();
 
             BeanUtils.copyProperties(newRoom, room);
+            room.setAvailable(true);
             roomRepository.save(room);
 
             DtoRoom savedRoom = new DtoRoom();
