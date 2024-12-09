@@ -57,7 +57,7 @@ function CreateRoom() {
       capacity: parseInt(capacity),
       bedType,
       pricePerNight: parseFloat(pricePerNight),
-      isAvailable,
+      isAvailable: true,
       hasView,
     };
 
@@ -138,14 +138,6 @@ function CreateRoom() {
                   value={pricePerNight}
                   onChange={(e) => setPricePerNight(e.target.value)}
                   required
-                />
-              </div>
-              <div className="form-group-inline">
-                <label>Available:</label>
-                <input
-                  type="checkbox"
-                  checked={isAvailable}
-                  onChange={(e) => setIsAvailable(e.target.checked)}
                 />
               </div>
               <div className="form-group-inline">
