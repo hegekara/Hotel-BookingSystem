@@ -58,16 +58,17 @@ public class PersonelServiceImpl implements IPersonelService{
     @Override
     public ResponseEntity<DtoResponse> loginPersonel(String email, String password) {
         Personel personel = personelRepository.findByEmail(email);
-        if(personel != null){
-            if(passwordEncoder.matches(password, personel.getPassword())){
+        if (personel != null) {
+            if (passwordEncoder.matches(password, personel.getPassword())) {
                 DtoPersonel dtoPersonel = new DtoPersonel();
                 BeanUtils.copyProperties(personel, dtoPersonel);
-                
+    
                 String token = jwtUtil.generateToken(email, personel.getRole());
-                return ResponseEntity.ok(new DtoResponse(dtoPersonel, token, "login succsessful"));
+                return ResponseEntity.ok(new DtoResponse(dtoPersonel, token, "login successful"));
             }
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new DtoResponse(null, null, "Invalid credentials"));
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new DtoResponse(null, null, "Person not found"));
     }
 
 
