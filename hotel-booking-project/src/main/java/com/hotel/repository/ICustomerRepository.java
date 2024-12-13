@@ -7,5 +7,12 @@ import com.hotel.entities.user.Customer;
 
 @Repository
 public interface ICustomerRepository extends JpaRepository<Customer, Long>{
+
+    /**
+     * e-posta adresine göre müşteriyi veritabanından çeker
+     * 
+     * @param email
+     * @return parametre olarak girilen e-posta ile eşleşen müşteri döndürülür.
+     */
     Customer findByEmail(String email);
 }
