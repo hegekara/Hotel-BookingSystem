@@ -119,7 +119,7 @@ function EditRoom() {
                                 <select
                                     value={roomType}
                                     onChange={(e) => setRoomType(e.target.value)}
-                                    required
+                                    disabled
                                 >
                                     <option value="">Select Room Type</option>
                                     {roomTypes.map((type, index) => (

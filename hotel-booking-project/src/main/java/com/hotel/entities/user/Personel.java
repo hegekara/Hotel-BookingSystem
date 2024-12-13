@@ -2,6 +2,8 @@ package com.hotel.entities.user;
 
 import java.time.LocalDate;
 
+import com.hotel.constants.Role;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
@@ -18,4 +20,9 @@ public class Personel extends BaseUser{
 
     @Column(nullable = true)
     private LocalDate startingDate;
+
+    public Personel(Long id, String firstName, String lastName, String email, Role role, String phoneNumber, String password, LocalDate startingDate) {
+        super(id, firstName, lastName, email, role, phoneNumber, password);
+        this.startingDate = startingDate;
+    }
 }
