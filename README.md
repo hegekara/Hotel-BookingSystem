@@ -7,7 +7,7 @@ Bu projenin amacı, bir otel yönetim sistemine ait oda, müşteri, rezervasyon 
 
 **Front-End:** React
 
-**Back-End:** Java, Spring Framework, PostgreSql
+**Back-End:** Java, Spring Framework, JWT, PostgreSql
 
 
 ## Back-End
@@ -25,6 +25,10 @@ Controller-Service-Repository katmanları ile katmanlı bir mimari oluşturulmu�
 - Repository Katmanı, Hibernate/JPA kullanarak veritabanı CRUD ve veri tabanı sorgu işlemlerini gerçekleştirir.
 
 Sistemin güvenilirliğini artırmak için JUnit ile birim testler yazılmıştır. Servis katmanındaki metotlar test edilerek, sistemin hata durumlarına karşı nasıl tepki vereceği doğrulanmıştır.
+
+Veri tabanı yönetim sistemi olarak ise PostgreSql kullanılmıştır. Aşağıdaki ER diyagramı, uygulamada kullanılan veri modelini detaylandırmaktadır.
+
+![Personel-Management](https://github.com/user-attachments/assets/9a02f814-b5f4-4f89-b581-4ffbb4467d38)
 
 ## DTO yapıları
 
@@ -401,7 +405,11 @@ Frontend kısmı, React.js kullanılarak geliştirilmiştir. Uygulama, kullanıc
 ---
 ![Admin-Panel](https://github.com/user-attachments/assets/6d661e86-00d1-43f6-ac63-7425639277ec)
 ---
-![Room-Management](https://github.com/user-attachments/assets/6081ddbc-e805-4f8a-9cc9-17a7dde2be61)
+![Room-Management](https://github.com/user-attachments/assets/b0c8a95f-6f96-4ada-bc61-deeadc8440dd)
+---
+![Booking-Management](https://github.com/user-attachments/assets/32bdd114-ac1d-49f3-aab2-1106b020a3ab)
+---
+![Room-Edit](https://github.com/user-attachments/assets/6081ddbc-e805-4f8a-9cc9-17a7dde2be61)
 ---
 ![Personel-Management](https://github.com/user-attachments/assets/e0c21fcc-6866-43df-8a39-fee90bec17b1)
 ---
