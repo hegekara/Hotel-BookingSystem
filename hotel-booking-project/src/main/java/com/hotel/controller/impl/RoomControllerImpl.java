@@ -32,7 +32,6 @@ public class RoomControllerImpl implements IRoomController{
 
     @GetMapping("/list")
     public ResponseEntity<List<DtoRoom>> getAllRooms() {
-        System.out.println("1");
         return roomService.getAllRooms();
     }
 

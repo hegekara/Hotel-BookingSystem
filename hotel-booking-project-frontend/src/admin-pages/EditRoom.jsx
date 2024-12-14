@@ -6,7 +6,7 @@ import "../styles/RoomCreate.css";
 
 function EditRoom() {
     const navigate = useNavigate();
-    const { roomNumber } = useParams(); // URL'den roomNumber almak
+    const { roomNumber } = useParams();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [role, setRole] = useState(localStorage.getItem("role") || "");
 
