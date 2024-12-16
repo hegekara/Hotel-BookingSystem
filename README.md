@@ -28,7 +28,7 @@ Sistemin güvenilirliğini artırmak için JUnit ile birim testler yazılmışt�
 
 Veri tabanı yönetim sistemi olarak ise PostgreSql kullanılmıştır. Aşağıdaki ER diyagramı, uygulamada kullanılan veri modelini detaylandırmaktadır.
 
-![ER-Diagram](https://github.com/user-attachments/assets/fc7803e2-d677-416e-82be-b86be371fa17)
+![ER-Diagram](https://github.com/user-attachments/assets/2bbc445e-4ce2-4d1e-bd99-658b0c52e447)
 
 ## DTO yapıları
 
