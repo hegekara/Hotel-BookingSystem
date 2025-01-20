@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
@@ -56,8 +57,9 @@ public class BookingServiceImpl implements IBookingService {
     }
 
     @Override
-    public ResponseEntity<DtoBooking> getBookingById(Long id) {
-        Optional<Booking> optionalBooking = bookingRepository.findById(id);
+    public ResponseEntity<DtoBooking> getBookingById(String id) {
+
+        Optional<Booking> optionalBooking = bookingRepository.findById(UUID.fromString(id));
 
         if (optionalBooking.isPresent()) {
             Booking booking = optionalBooking.get();
@@ -71,10 +73,16 @@ public class BookingServiceImpl implements IBookingService {
 
     @Override
     public ResponseEntity<DtoBookingIU> createBooking(DtoBookingIU dtoBookingIU) {
+        System.out.println("service geldi");
         try {
-            Customer customer = customerRepository.findByEmail(dtoBookingIU.getEmail());
+            System.out.println("service başladı");
+            Optional<Customer> optionalCustomer = customerRepository.findById(UUID.fromString(dtoBookingIU.getCustomerId()));
+            Customer customer = optionalCustomer.get();
+            System.out.println("customer bulundu");
 
-            Room room = roomRepository.findByRoomNumber(dtoBookingIU.getRoomNumber());
+            Optional<Room> optionalRoom = roomRepository.findById(UUID.fromString(dtoBookingIU.getRoomId()));
+            Room room = optionalRoom.get();
+            System.out.println("room bulundu");
 
             if (!room.isAvailable()) {
                 throw new IllegalStateException("Room is not available for booking");
@@ -98,8 +106,8 @@ public class BookingServiceImpl implements IBookingService {
     }
 
     @Override
-    public ResponseEntity<DtoBooking> updateBooking(Long id, DtoBooking updatedBooking) {
-        Optional<Booking> optionalBooking = bookingRepository.findById(id);
+    public ResponseEntity<DtoBooking> updateBooking(String id, DtoBooking updatedBooking) {
+        Optional<Booking> optionalBooking = bookingRepository.findById(UUID.fromString(id));
 
         if (optionalBooking.isPresent()) {
             Booking booking = optionalBooking.get();
@@ -124,8 +132,8 @@ public class BookingServiceImpl implements IBookingService {
     }
 
     @Override
-    public ResponseEntity<String> cancelBooking(Long id) {
-        Optional<Booking> optionalBooking = bookingRepository.findById(id);
+    public ResponseEntity<String> cancelBooking(String id) {
+        Optional<Booking> optionalBooking = bookingRepository.findById(UUID.fromString(id));
         System.out.println("5");
 
         if (optionalBooking.isPresent()) {
@@ -142,27 +150,31 @@ public class BookingServiceImpl implements IBookingService {
     }
 
     @Override
-    public ResponseEntity<List<DtoBooking>> getBookingsByCustomerEmail(String email) {
+    public ResponseEntity<List<DtoBooking>> getBookingsByCustomerId(String id) {
+        Optional<Customer> optional = customerRepository.findById(UUID.fromString(id));
+        if(optional.isPresent()){
 
-        List<Booking> bookingList = bookingRepository.findByCustomer_Email(email);
+            Customer customer = optional.get();
+            List<Booking> bookingList = bookingRepository.findByCustomer_Email(customer.getEmail());
 
-        if (!bookingList.isEmpty()) {
-            List<DtoBooking> dtoBookingList = bookingList.stream().map(booking -> {
-                DtoBooking dtoBooking = new DtoBooking();
-                BeanUtils.copyProperties(booking, dtoBooking);
-                return dtoBooking;
-            }).collect(Collectors.toList());
+            if (!bookingList.isEmpty()) {
+                List<DtoBooking> dtoBookingList = bookingList.stream().map(booking -> {
+                    DtoBooking dtoBooking = new DtoBooking();
+                    BeanUtils.copyProperties(booking, dtoBooking);
+                    return dtoBooking;
+                }).collect(Collectors.toList());
 
-            return ResponseEntity.ok().body(dtoBookingList);
+                return ResponseEntity.ok().body(dtoBookingList);
+            }
         }
 
         return ResponseEntity.badRequest().body(null);
     }
 
     @Override
-    public ResponseEntity<String> acceptReservation(Long id) {
-        try {
-            Optional<Booking> optionalBooking = bookingRepository.findById(id);
+    public ResponseEntity<String> acceptReservation(String id) {
+    try {
+            Optional<Booking> optionalBooking = bookingRepository.findById(UUID.fromString(id));
     
             if (optionalBooking.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Booking not found with id: " + id);
@@ -181,9 +193,9 @@ public class BookingServiceImpl implements IBookingService {
 
 
     @Override
-    public ResponseEntity<String> rejectReservation(Long id) {
+    public ResponseEntity<String> rejectReservation(String id) {
         try {
-            Optional<Booking> optionalBooking = bookingRepository.findById(id);
+            Optional<Booking> optionalBooking = bookingRepository.findById(UUID.fromString(id));
             
             if (optionalBooking.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Booking not found with id: " + id);

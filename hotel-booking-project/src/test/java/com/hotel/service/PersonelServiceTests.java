@@ -10,6 +10,7 @@ import static org.mockito.Mockito.when;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -96,9 +97,9 @@ public class PersonelServiceTests {
     @Test
     void testLoginPersonel() {
         List<Personel> mockPersonelList = Arrays.asList(
-            new Personel(1L, "Aaa", "Bbb", "cc@ccc.com", Role.ADMIN, "4838493", "$2a$10$encodedPassword1", LocalDate.parse("2024-01-01")),
-            new Personel(2L, "Xxx", "Yyy", "xx@yyy.com", Role.MANAGER, "1234567", "$2a$10$encodedPassword2", LocalDate.parse("2024-02-01")),
-            new Personel(3L, "Jjj", "Kkk", "jj@kkk.com", Role.PERSONEL, "9876543", "$2a$10$encodedPassword3", LocalDate.parse("2024-03-01"))
+            new Personel(UUID.randomUUID(), "Aaa", "Bbb", "cc@ccc.com", Role.ADMIN, "4838493", "$2a$10$encodedPassword1", LocalDate.parse("2024-01-01")),
+            new Personel(UUID.randomUUID(), "Xxx", "Yyy", "xx@yyy.com", Role.MANAGER, "1234567", "$2a$10$encodedPassword2", LocalDate.parse("2024-02-01")),
+            new Personel(UUID.randomUUID(), "Jjj", "Kkk", "jj@kkk.com", Role.PERSONEL, "9876543", "$2a$10$encodedPassword3", LocalDate.parse("2024-03-01"))
         );
     
         String email = "cc@ccc.com";
@@ -126,9 +127,9 @@ public class PersonelServiceTests {
     @Test
     void testGetAllPersonel() {
         List<Personel> mockPersonelList = Arrays.asList(
-            new Personel(1L, "Aaa", "Bbb", "cc@ccc.com", Role.ADMIN, "4838493", "382ds*1", LocalDate.parse("2024-01-01")),
-            new Personel(2L, "Xxx", "Yyy", "xx@yyy.com", Role.MANAGER, "1234567", "password1", LocalDate.parse("2024-02-01")),
-            new Personel(3L, "Jjj", "Kkk", "jj@kkk.com", Role.PERSONEL, "9876543", "mod@123", LocalDate.parse("2024-03-01"))
+            new Personel(UUID.randomUUID(), "Aaa", "Bbb", "cc@ccc.com", Role.ADMIN, "4838493", "382ds*1", LocalDate.parse("2024-01-01")),
+            new Personel(UUID.randomUUID(), "Xxx", "Yyy", "xx@yyy.com", Role.MANAGER, "1234567", "password1", LocalDate.parse("2024-02-01")),
+            new Personel(UUID.randomUUID(), "Jjj", "Kkk", "jj@kkk.com", Role.PERSONEL, "9876543", "mod@123", LocalDate.parse("2024-03-01"))
         );
 
         when(personelRepository.findAll()).thenReturn(mockPersonelList);
@@ -145,7 +146,7 @@ public class PersonelServiceTests {
     @Test
     void testUpdatePersonel() {
         Personel existingPersonel = new Personel(
-            1L,
+            UUID.randomUUID(),
             "Aaa",
             "Bbb",
             "cc@ccc.com",
@@ -165,7 +166,7 @@ public class PersonelServiceTests {
         );
     
         Personel updatedPersonel = new Personel(
-            1L,
+            UUID.randomUUID(),
             "Ege",
             "Kara",
             "cc@ccc.com",
@@ -198,7 +199,7 @@ public class PersonelServiceTests {
     void testDeletePersonel_Success() {
         String email = "cc@ccc.com";
         Personel mockPersonel = new Personel(
-            1L,
+            UUID.randomUUID(),
             "Aaa",
             "Bbb",
             email,
@@ -243,7 +244,7 @@ public class PersonelServiceTests {
         String encodedOldPassword = "$2a$10$encodedOldPassword";
 
         Personel mockPersonel = new Personel(
-            1L,
+            UUID.randomUUID(),
             "Aaa",
             "Bbb",
             email,
@@ -274,7 +275,7 @@ public class PersonelServiceTests {
         String encodedOldPassword = "$2a$10$encodedOldPassword";
 
         Personel mockPersonel = new Personel(
-            1L,
+            UUID.randomUUID(),
             "Aaa",
             "Bbb",
             email,

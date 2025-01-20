@@ -3,6 +3,8 @@ package com.hotel.service.impl;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +41,7 @@ public class PersonelServiceImpl implements IPersonelService{
             dtoPersonelIU.setPassword(encryptedPassword);
     
             Personel personel = new Personel();
-    
+
             BeanUtils.copyProperties(dtoPersonelIU, personel);
             personel.setStartingDate(LocalDate.now());
             personelRepository.save(personel);
@@ -90,10 +92,11 @@ public class PersonelServiceImpl implements IPersonelService{
 
 
     @Override
-    public ResponseEntity<DtoPersonel> getPersonelByEmail(String email) {
-        Personel personel = personelRepository.findByEmail(email);
-        
-        if(personel != null){
+    public ResponseEntity<DtoPersonel> getPersonelById(String id) {
+        Optional<Personel> optional = personelRepository.findById(UUID.fromString(id));
+        if (optional.isPresent()) {
+
+            Personel personel = optional.get();
             DtoPersonel dtoPersonel = new DtoPersonel();
 
             BeanUtils.copyProperties(personel, dtoPersonel);
@@ -104,11 +107,11 @@ public class PersonelServiceImpl implements IPersonelService{
 
 
     @Override
-    public ResponseEntity<DtoPersonel> updatePersonel(String email, DtoPersonelIU updatedPersonel) {
-        Personel personel = personelRepository.findByEmail(email);
-    
-        if (personel != null) {
+    public ResponseEntity<DtoPersonel> updatePersonel(String id, DtoPersonelIU updatedPersonel) {
+        Optional<Personel> optional = personelRepository.findById(UUID.fromString(id));
 
+        if (optional.isPresent()) {
+            Personel personel = optional.get();
             personel.setFirstName(updatedPersonel.getFirstName());
             personel.setLastName(updatedPersonel.getLastName());
             personel.setEmail(updatedPersonel.getEmail());
@@ -126,10 +129,11 @@ public class PersonelServiceImpl implements IPersonelService{
 
 
     @Override
-    public ResponseEntity<String> deletePersonel(String email) {
-        Personel personel = personelRepository.findByEmail(email);
-    
-        if (personel != null) {
+    public ResponseEntity<String> deletePersonel(String id) {
+        Optional<Personel> optional = personelRepository.findById(UUID.fromString(id));
+
+        if (optional.isPresent()) {
+            Personel personel = optional.get();
             personelRepository.delete(personel);
             return ResponseEntity.ok("Personel has been deleted successfully.");
         } 
@@ -138,11 +142,11 @@ public class PersonelServiceImpl implements IPersonelService{
 
 
     @Override
-    public ResponseEntity<String> changePassword(String email, String oldPassword, String newPassword) {
-        Personel personel = personelRepository.findByEmail(email);
-    
-        if (personel != null) {
-    
+    public ResponseEntity<String> changePassword(String id, String oldPassword, String newPassword) {
+        Optional<Personel> optional = personelRepository.findById(UUID.fromString(id));
+
+        if (optional.isPresent()) {
+            Personel personel = optional.get();
             if (passwordEncoder.matches(oldPassword, personel.getPassword())) {
                 personel.setPassword(passwordEncoder.encode(newPassword));
                 personelRepository.save(personel);

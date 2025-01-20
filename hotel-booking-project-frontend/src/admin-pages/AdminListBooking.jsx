@@ -20,6 +20,8 @@ function AdminListBooking() {
             API.get(`booking/list`)
                 .then(response => {
                     setBookings(response.data);
+                    console.log(response);
+                    
                 })
                 .catch(error => {
                     console.error("Error fetching bookings:", error);

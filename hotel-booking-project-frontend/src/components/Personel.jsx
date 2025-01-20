@@ -3,9 +3,9 @@ import '../styles/Personel.css';
 import API from "../api";
 
 function Personel({ personels }) {
-  const handleFire = (email) => {
+  const handleFire = (id) => {
     if (window.confirm('Are you sure you want to fire this employee?')) {
-      API.delete(`/personel/delete/${email}`)
+      API.delete(`/personel/delete/${id}`)
         .then((response) => {
           alert(response.data);
           window.location.reload();
@@ -38,7 +38,7 @@ function Personel({ personels }) {
               <td className="personel-actions">
                 <button
                   className="fire-button"
-                  onClick={() => handleFire(personel.email)}
+                  onClick={() => handleFire(personel.id)}
                 >
                   Fire
                 </button>

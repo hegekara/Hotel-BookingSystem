@@ -29,7 +29,7 @@ public interface IRoomController {
      * @return Bulunan odanın bilgilerini içeren DtoRoom nesnesini ResponseEntity ile döner
      * @see DtoRoom
      */
-    public ResponseEntity<DtoRoom> getRoomByRoomNumber(String roomNumber);
+    public ResponseEntity<DtoRoom> getRoomById(String id);
 
 
     /**
@@ -50,7 +50,7 @@ public interface IRoomController {
      * @return Güncellenmiş odanın bilgilerini içeren DtoRoom nesnesini ResponseEntity ile döner
      * @see DtoRoom
      */
-    public ResponseEntity<DtoRoom> updateRoom(String roomNumber, DtoRoom updatedRoom);
+    public ResponseEntity<DtoRoom> updateRoom(String id, DtoRoom updatedRoom);
 
     
     /**
@@ -59,7 +59,7 @@ public interface IRoomController {
      * @param roomNumber Silinecek odanın numarası
      * @return Silme işleminin sonucunu belirten bir mesajı ResponseEntity ile döner
      */
-    public ResponseEntity<String> deleteRoom(String roomNumber);
+    public ResponseEntity<String> deleteRoom(String id);
 
 
     /**

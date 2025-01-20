@@ -1,5 +1,7 @@
 package com.hotel.entities.user;
 
+import java.util.UUID;
+
 import com.hotel.constants.Role;
 
 import jakarta.persistence.Column;
@@ -19,9 +21,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class BaseUser {
 
+    /*
+     * id oluşturulurkne uuid tipinde bir id oluşturulur.
+     */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     @Column(nullable = false)
     private String firstName;

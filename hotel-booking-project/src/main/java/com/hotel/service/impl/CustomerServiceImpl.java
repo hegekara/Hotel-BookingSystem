@@ -3,6 +3,8 @@ package com.hotel.service.impl;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,10 +98,11 @@ public class CustomerServiceImpl implements ICustomerService{
 
 
     @Override
-    public ResponseEntity<DtoCustomer> getCustomerByEmail(String email) {
-        Customer customer = customerRepository.findByEmail(email);
+    public ResponseEntity<DtoCustomer> getCustomerById(String id) {
+        Optional<Customer> optional = customerRepository.findById(UUID.fromString(id));
         
-        if(customer!=null){
+        if(optional.isPresent()){
+            Customer customer = optional.get();
             DtoCustomer dtoCustomer = new DtoCustomer();
 
             BeanUtils.copyProperties(customer, dtoCustomer);
@@ -110,11 +113,11 @@ public class CustomerServiceImpl implements ICustomerService{
 
 
     @Override
-    public ResponseEntity<DtoCustomer> updateCustomer(String email, DtoCustomer updatedCustomer) {
-        Customer customer = customerRepository.findByEmail(email);
+    public ResponseEntity<DtoCustomer> updateCustomer(String id, DtoCustomer updatedCustomer) {
+        Optional<Customer> optional = customerRepository.findById(UUID.fromString(id));
     
-        if (customer!=null) {
-
+        if (optional.isPresent()) {
+            Customer customer = optional.get();
             customer.setFirstName(updatedCustomer.getFirstName());
             customer.setLastName(updatedCustomer.getLastName());
             customer.setEmail(updatedCustomer.getEmail());
@@ -132,11 +135,12 @@ public class CustomerServiceImpl implements ICustomerService{
 
 
     @Override
-    public ResponseEntity<String> deleteCustomer(String email) {
-        Customer existingCustomer = customerRepository.findByEmail(email);
+    public ResponseEntity<String> deleteCustomer(String id) {
+        Optional<Customer> optional = customerRepository.findById(UUID.fromString(id));
     
-        if (existingCustomer != null) {
-            List<Booking> bookings = bookingRepository.findByCustomer_Email(email);
+        if (optional.isPresent()) {
+            Customer existingCustomer = optional.get();
+            List<Booking> bookings = bookingRepository.findByCustomer_Email(existingCustomer.getEmail());
     
             if (bookings.isEmpty()) {
                 customerRepository.deleteById(existingCustomer.getId());
@@ -149,11 +153,12 @@ public class CustomerServiceImpl implements ICustomerService{
 
 
     @Override
-    public ResponseEntity<String> changePassword(String email, String oldPassword, String newPassword) {
-        Customer customer = customerRepository.findByEmail(email);
+    public ResponseEntity<String> changePassword(String id, String oldPassword, String newPassword) {
+        Optional<Customer> optional = customerRepository.findById(UUID.fromString(id));
     
-        if (customer!=null) {
+        if (optional.isPresent()) {
     
+            Customer customer = optional.get();
             if (passwordEncoder.matches(oldPassword, customer.getPassword())) {
                 customer.setPassword(passwordEncoder.encode(newPassword));
                 customerRepository.save(customer);

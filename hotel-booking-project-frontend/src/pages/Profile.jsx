@@ -6,7 +6,8 @@ import "../styles/Profile.css";
 
 function Profile() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [email, setEmail] = useState(localStorage.getItem("email") || "");
+    const [id, setId] = useState(localStorage.getItem("id") || "");
+    const [email, setEmail] = useState("");
     const [role, setRole] = useState(localStorage.getItem("role") || "");
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
@@ -22,8 +23,8 @@ function Profile() {
         if(role==="customer"){
             if (!token) {
                 navigate("/");
-            } else if (email) {
-                API.get(`/customer/${email}`)
+            } else if (id) {
+                API.get(`/customer/${id}`)
                     .then((response) => {
                         const customer = response.data;
                         setEmail(customer.email);
@@ -36,7 +37,7 @@ function Profile() {
                     });
             }
         }else if((role=="admin")|| (role=="manager")|| (role=="personel")){
-            API.get(`/personel/${email}`)
+            API.get(`/personel/${id}`)
             .then((response) => {
                 console.log(response);
                 
@@ -51,13 +52,13 @@ function Profile() {
             });
         }
 
-    }, [email, navigate]);
+    }, [navigate]);
 
     const handleUpdate = (e) => {
         e.preventDefault();
 
         if(role==="customer"){
-            API.put(`/customer/update/${email}`, {
+            API.put(`/customer/update/${id}`, {
                 email,
                 firstName,
                 lastName,
@@ -73,7 +74,7 @@ function Profile() {
         }
 
         if((role=="admin")|| (role=="manager")|| (role=="personel")){
-            API.put(`/personel/update/${email}`, {
+            API.put(`/personel/update/${id}`, {
                 email,
                 firstName,
                 lastName,
@@ -94,7 +95,7 @@ function Profile() {
         if (window.confirm("Are you sure you want to delete this profile?")) {
 
             if(role ==="customer"){
-                API.delete(`/customer/delete/${email}`)
+                API.delete(`/customer/delete/${id}`)
                 .then(() => {
                     alert("Profile deleted successfully!");
                     localStorage.clear();
@@ -109,7 +110,7 @@ function Profile() {
                     }
                 });
             }else if((role=="admin")|| (role=="manager")|| (role=="personel")){
-                API.delete(`/personel/delete/${email}`)
+                API.delete(`/personel/delete/${id}`)
                 .then(() => {
                     alert("Profile deleted successfully!");
                     localStorage.clear();

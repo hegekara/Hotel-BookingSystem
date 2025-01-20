@@ -32,38 +32,39 @@ public class BookingControllerImpl implements IBookingController{
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DtoBooking> getBookingById(@PathVariable Long id) {
+    public ResponseEntity<DtoBooking> getBookingById(@PathVariable String id) {
         return bookingService.getBookingById(id);
     }
 
     @PostMapping("/create")
     public ResponseEntity<DtoBookingIU> createBooking(@RequestBody DtoBookingIU dtoBookingIU) {
+        System.out.println("controllera geldi");
         return bookingService.createBooking(dtoBookingIU);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<DtoBooking> updateBooking(@PathVariable Long id, @RequestBody DtoBooking updatedBooking) {
+    public ResponseEntity<DtoBooking> updateBooking(@PathVariable String id, @RequestBody DtoBooking updatedBooking) {
         return bookingService.updateBooking(id, updatedBooking);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> cancelBooking(@PathVariable Long id) {
+    public ResponseEntity<String> cancelBooking(@PathVariable String id) {
         return bookingService.cancelBooking(id);
     }
 
-    @GetMapping("/customer/{email}")
-    public ResponseEntity<List<DtoBooking>> getBookingsByCustomerEmail(@PathVariable String email) {
-        return bookingService.getBookingsByCustomerEmail(email);
+    @GetMapping("/customer/{id}")
+    public ResponseEntity<List<DtoBooking>> getBookingsByCustomerId(@PathVariable String id) {
+        return bookingService.getBookingsByCustomerId(id);
     }
 
     @PatchMapping("/accept/{id}")
-    public ResponseEntity<String> acceptReservation(@PathVariable Long id){
+    public ResponseEntity<String> acceptReservation(@PathVariable String id){
         System.out.println("\n\na");
         return bookingService.acceptReservation(id);
     }
 
     @PatchMapping("/reject/{id}")
-    public ResponseEntity<String> rejcetReservation(@PathVariable Long id){
+    public ResponseEntity<String> rejcetReservation(@PathVariable String id){
         return bookingService.rejectReservation(id);
     }
 }

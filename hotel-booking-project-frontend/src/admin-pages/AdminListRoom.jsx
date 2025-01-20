@@ -26,8 +26,9 @@ function AdminListRoom() {
     const fetchRooms = async () => {
         try {
             const response = await API.get("/room/list");
-
             setRooms(response.data);
+
+            console.log(response.data)
         } catch (error) {
             console.error("Odalar getirilemedi:", error);
         }

@@ -3,6 +3,8 @@ package com.hotel.service.impl;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,9 +44,10 @@ public class RoomServiceImpl implements IRoomService {
     }
 
     @Override
-    public ResponseEntity<DtoRoom> getRoomByRoomNumber(String roomNumber) {
-        Room room = roomRepository.findByRoomNumber(roomNumber);
-        if (room != null) {
+    public ResponseEntity<DtoRoom> getRoomById(String id) {
+        Optional<Room> optional = roomRepository.findById(UUID.fromString(id));
+        if (optional.isPresent()) {
+            Room room = optional.get();
             DtoRoom dtoRoom = new DtoRoom();
             BeanUtils.copyProperties(room, dtoRoom);
             return ResponseEntity.ok().body(dtoRoom);
@@ -71,10 +74,12 @@ public class RoomServiceImpl implements IRoomService {
     }
 
     @Override
-    public ResponseEntity<DtoRoom> updateRoom(String roomNumber, DtoRoom updatedRoom) {
-        Room room = roomRepository.findByRoomNumber(roomNumber);
+    public ResponseEntity<DtoRoom> updateRoom(String id, DtoRoom updatedRoom) {
 
-        if (room!=null) {
+        Optional<Room> optional = roomRepository.findById(UUID.fromString(id));
+
+        if (optional.isPresent()) {
+            Room room = optional.get();
             room.setRoomNumber(updatedRoom.getRoomNumber());
             room.setAvailable(updatedRoom.isAvailable());
             room.setBedType(updatedRoom.getBedType());
@@ -95,22 +100,23 @@ public class RoomServiceImpl implements IRoomService {
     }
 
     @Override
-    public ResponseEntity<String> deleteRoom(String roomNumber) {
-        Room room = roomRepository.findByRoomNumber(roomNumber);
-    
-        if (room != null) {
+    public ResponseEntity<String> deleteRoom(String id) {
+        Optional<Room> optional = roomRepository.findById(UUID.fromString(id));
+
+        if (optional.isPresent()) {
+            Room room = optional.get();
             try {
-                List<Booking> bookings = bookingRepository.findByRoom_RoomNumber(roomNumber);
+                List<Booking> bookings = bookingRepository.findByRoom_RoomNumber(room.getRoomNumber());
                 if (bookings.isEmpty()) {
                     roomRepository.delete(room);
-                    return ResponseEntity.ok("Room " + roomNumber + " has been deleted successfully.");
+                    return ResponseEntity.ok("Room " + room.getRoomNumber() + " has been deleted successfully.");
                 }
-                return ResponseEntity.badRequest().body("Room " + roomNumber + " has active bookings and cannot be deleted.");
+                return ResponseEntity.badRequest().body("Room " + room.getRoomNumber() + " has active bookings and cannot be deleted.");
             } catch (Exception e) {
                 return ResponseEntity.status(500).body("Room could not be deleted due to server error.");
             }
         }
-        return ResponseEntity.badRequest().body("Room " + roomNumber + " could not be found.");
+        return ResponseEntity.badRequest().body("Room " + id + " could not be found.");
     }
 
     public ResponseEntity<List<DtoRoom>> findAvailableRooms(RoomType roomType, String bedType, Boolean hasView, LocalDate checkInDate, LocalDate checkOutDate) {

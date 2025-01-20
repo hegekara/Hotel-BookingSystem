@@ -32,7 +32,7 @@ public interface ICustomerService {
      * @see DtoResponse
      * @return Giriş durumu hakkında bir DtoResponse nesnesi ile birlikte ResponseEntity döner
      */
-    public ResponseEntity<DtoResponse> loginCustomer(String email, String password);
+    public ResponseEntity<DtoResponse> loginCustomer(String id, String password);
 
 
     /**
@@ -47,11 +47,11 @@ public interface ICustomerService {
     /**
      * Verilen e-posta adresine sahip müşteriin bilgilerini döner.
      *
-     * @param email bilgileri alınacak müşteriin e-posta adresi
+     * @param email bilgileri alınacak müşterinin e-posta adresi
      * @return Bulunan müşteriin bilgilerini içeren DtoCustomer nesnesi ile ResponseEntity döner
      * @see DtoCustomer
      */
-    public ResponseEntity<DtoCustomer> getCustomerByEmail(String email);
+    public ResponseEntity<DtoCustomer> getCustomerById(String id);
 
 
     /**
@@ -62,7 +62,7 @@ public interface ICustomerService {
      * @return Güncellenmiş müşterinin bilgilerini içeren DtoCustomer nesnesi ile ResponseEntity döner
      * @see DtoCustomer
      */
-    public ResponseEntity<DtoCustomer> updateCustomer(String email, DtoCustomer updatedCustomer);
+    public ResponseEntity<DtoCustomer> updateCustomer(String id, DtoCustomer updatedCustomer);
 
 
     /**
@@ -71,7 +71,7 @@ public interface ICustomerService {
      * @param email silinecek müşterinin e-posta adresi
      * @return Silme işleminin sonucunu belirten bir mesaj ile ResponseEntity döner
      */
-    public ResponseEntity<String> deleteCustomer(String email);
+    public ResponseEntity<String> deleteCustomer(String id);
 
 
     /**
@@ -82,5 +82,5 @@ public interface ICustomerService {
      * @param newPassword yeni şifre
      * @return Şifre değiştirme işleminin sonucunu belirten bir mesaj ile ResponseEntity döner
      */
-    public ResponseEntity<String> changePassword(String email, String oldPassword, String newPassword);
+    public ResponseEntity<String> changePassword(String id, String oldPassword, String newPassword);
 }

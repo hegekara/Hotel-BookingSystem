@@ -46,29 +46,29 @@ public class PersonelControllerImpl implements IPersonelController{
         return personelService.getAllPersonels();
     }
 
-    @GetMapping("/{email}")
-    public ResponseEntity<DtoPersonel> getPersonelByEmail(@PathVariable(required = true) String email) {
-        return personelService.getPersonelByEmail(email);
+    @GetMapping("/{id}")
+    public ResponseEntity<DtoPersonel> getPersonelById(@PathVariable(required = true) String id) {
+        return personelService.getPersonelById(id);
     }
 
-    @PutMapping("/update/{email}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<DtoPersonel> updatePersonel(
-            @PathVariable(required = true) String email,
+            @PathVariable(required = true) String id,
             @RequestBody(required = true) DtoPersonelIU updatedPersonel) {
-        return personelService.updatePersonel(email, updatedPersonel);
+        return personelService.updatePersonel(id, updatedPersonel);
     }
 
-    @DeleteMapping("/delete/{email}")
-    public ResponseEntity<String> deletePersonel(@PathVariable String email) {
-        return personelService.deletePersonel(email);
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deletePersonel(@PathVariable String id) {
+        return personelService.deletePersonel(id);
     }
 
-    @PatchMapping("/{email}/password")
+    @PatchMapping("/{id}/password")
     public ResponseEntity<String> changePassword(
-            @PathVariable String email,
+            @PathVariable String id,
             @RequestParam(name = "oldPassword", required = true) String oldPassword,
             @RequestParam(name = "newPassword", required = true) String newPassword) {
-        return personelService.changePassword(email, oldPassword, newPassword);
+        return personelService.changePassword(id, oldPassword, newPassword);
     }
 
     @GetMapping("/roles")

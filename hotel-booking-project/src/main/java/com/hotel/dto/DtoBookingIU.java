@@ -13,9 +13,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class DtoBookingIU {
 
-    private String email;
+    private String customerId;
 
-    private String roomNumber;
+    private String roomId;
 
     private LocalDate checkInDate;
 

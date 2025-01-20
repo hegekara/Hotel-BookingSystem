@@ -1,5 +1,7 @@
 package com.hotel.dto.user;
 
+import java.util.UUID;
+
 import com.hotel.constants.Role;
 
 import lombok.AllArgsConstructor;
@@ -10,6 +12,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DtoPersonel {
+
+    private UUID id;
 
     private String firstName;
 

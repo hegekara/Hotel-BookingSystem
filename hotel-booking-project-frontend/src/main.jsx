@@ -44,7 +44,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Route path="/list-personel" element={<ListPersonel />} />
         <Route path="/add-personel" element={<AddPersonel />} />
         <Route path="/create-room" element={<CreateRoom />} />
-        <Route path="/edit-room/:roomNumber" element={<EditRoom />} />
+        <Route path="/edit-room/:id" element={<EditRoom />} />
 
         <Route path="/*" element={<NoPage/>}/>
       </Routes>
