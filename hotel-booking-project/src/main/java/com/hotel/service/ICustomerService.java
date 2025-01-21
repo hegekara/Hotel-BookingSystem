@@ -45,9 +45,9 @@ public interface ICustomerService {
 
 
     /**
-     * Verilen e-posta adresine sahip müşteriin bilgilerini döner.
+     * Verilen id bilgisine sahip müşteriin bilgilerini döner.
      *
-     * @param email bilgileri alınacak müşterinin e-posta adresi
+     * @param id bilgileri alınacak müşterinin id bilgisi
      * @return Bulunan müşteriin bilgilerini içeren DtoCustomer nesnesi ile ResponseEntity döner
      * @see DtoCustomer
      */
@@ -55,9 +55,9 @@ public interface ICustomerService {
 
 
     /**
-     * Verilen e-posta adresine sahip müşteriyi bulur ve bilgilerini günceller.
+     * Verilen id bilgisine sahip müşteriyi bulur ve bilgilerini günceller.
      *
-     * @param email           bilgileri güncellenecek müşterinin e-posta adresi
+     * @param id           bilgileri güncellenecek müşterinin id bilgisi
      * @param updatedCustomer yeni bilgileri içeren DtoCustomerIU nesnesi
      * @return Güncellenmiş müşterinin bilgilerini içeren DtoCustomer nesnesi ile ResponseEntity döner
      * @see DtoCustomer
@@ -66,9 +66,9 @@ public interface ICustomerService {
 
 
     /**
-     * Verilen e-posta adresine sahip müşteriyi siler.
+     * Verilen id bilgisine sahip müşteriyi siler.
      *
-     * @param email silinecek müşterinin e-posta adresi
+     * @param id silinecek müşterinin id bilgisi
      * @return Silme işleminin sonucunu belirten bir mesaj ile ResponseEntity döner
      */
     public ResponseEntity<String> deleteCustomer(String id);
@@ -77,7 +77,7 @@ public interface ICustomerService {
     /**
      * Müşterinin mevcut şifresini değiştirir.
      *
-     * @param email       şifresi değiştirilecek müşterinin e-posta adresi
+     * @param id       şifresi değiştirilecek müşterinin id bilgisi
      * @param oldPassword mevcut şifre
      * @param newPassword yeni şifre
      * @return Şifre değiştirme işleminin sonucunu belirten bir mesaj ile ResponseEntity döner

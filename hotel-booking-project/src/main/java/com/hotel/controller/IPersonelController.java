@@ -45,9 +45,9 @@ public interface IPersonelController {
 
 
     /**
-     * Verilen e-posta adresine sahip personelin bilgilerini döner.
+     * Verilen id bilgisine sahip personelin bilgilerini döner.
      *
-     * @param email bilgileri alınacak personelin e-posta adresi
+     * @param id bilgileri alınacak personelin id bilgisi
      * @return Bulunan personelin bilgilerini içeren DtoPersonel nesnesi ile ResponseEntity döner
      * @see DtoPersonel
      */
@@ -55,9 +55,9 @@ public interface IPersonelController {
 
 
     /**
-     * Verilen e-posta adresine sahip personeli bulur ve bilgilerini günceller.
+     * Verilen id bilgisine sahip personeli bulur ve bilgilerini günceller.
      *
-     * @param email           bilgileri güncellenecek personelin e-posta adresi
+     * @param id           bilgileri güncellenecek personelin id bilgisi
      * @param updatedPersonel yeni bilgileri içeren DtoPersonelIU nesnesi
      * @return Güncellenmiş personelin bilgilerini içeren DtoPersonel nesnesi ile ResponseEntity döner
      * @see DtoPersonel
@@ -67,9 +67,9 @@ public interface IPersonelController {
 
 
     /**
-     * Verilen e-posta adresine sahip personeli siler.
+     * Verilen id bilgisine sahip personeli siler.
      *
-     * @param email silinecek personelin e-posta adresi
+     * @param id silinecek personelin id bilgisi
      * @return Silme işleminin sonucunu belirten bir mesaj ile ResponseEntity döner
      */
     public ResponseEntity<String> deletePersonel(String id);
@@ -78,7 +78,7 @@ public interface IPersonelController {
     /**
      * Personelin mevcut şifresini değiştirir.
      *
-     * @param email       şifresi değiştirilecek personelin e-posta adresi
+     * @param id       şifresi değiştirilecek personelin id bilgisi
      * @param oldPassword mevcut şifre
      * @param newPassword yeni şifre
      * @return Şifre değiştirme işleminin sonucunu belirten bir mesaj ile ResponseEntity döner

@@ -54,9 +54,9 @@ public interface IRoomService {
 
     
     /**
-     * Verilen oda numarasına sahip bir odayı sistemden siler.
+     * Verilen oda id bilgisine sahip bir odayı sistemden siler.
      *
-     * @param roomNumber Silinecek odanın numarası
+     * @param id Silinecek odanın id bilgisi
      * @return Silme işleminin sonucunu belirten bir mesajı ResponseEntity ile döner
      */
     public ResponseEntity<String> deleteRoom(String id);
