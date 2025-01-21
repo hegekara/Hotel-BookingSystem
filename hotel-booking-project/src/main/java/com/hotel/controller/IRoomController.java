@@ -23,9 +23,9 @@ public interface IRoomController {
 
 
     /**
-     * Verilen oda numarasına göre oda bilgilerini getirir.
+     * Verilen oda id bilgisine göre oda bilgilerini getirir.
      *
-     * @param roomNumber Bilgileri alınacak odanın numarası
+     * @param id Bilgileri alınacak odanın id bilgisi
      * @return Bulunan odanın bilgilerini içeren DtoRoom nesnesini ResponseEntity ile döner
      * @see DtoRoom
      */
@@ -43,9 +43,9 @@ public interface IRoomController {
 
 
     /**
-     * Verilen oda numarasına sahip bir odanın bilgilerini günceller.
+     * Verilen oda id bilgisine sahip bir odanın bilgilerini günceller.
      *
-     * @param roomNumber   Güncellenecek odanın numarası
+     * @param id   Güncellenecek odanın id bilgisi
      * @param updatedRoom  Güncellenmiş oda bilgilerini içeren DtoRoom nesnesi
      * @return Güncellenmiş odanın bilgilerini içeren DtoRoom nesnesini ResponseEntity ile döner
      * @see DtoRoom
@@ -54,16 +54,16 @@ public interface IRoomController {
 
     
     /**
-     * Verilen oda numarasına sahip bir odayı sistemden siler.
+     * Verilen oda id bilgisine sahip bir odayı sistemden siler.
      *
-     * @param roomNumber Silinecek odanın numarası
+     * @param id Silinecek odanın id bilgisi
      * @return Silme işleminin sonucunu belirten bir mesajı ResponseEntity ile döner
      */
     public ResponseEntity<String> deleteRoom(String id);
 
 
     /**
-     * Belirtilen kriterlere uygun ve uygun durumda olan odaları getirir.
+     * Belirtilen kriterlere uygun ve müsait durumda olan odaları getirir.
      *
      * @param roomType      İstenen oda türü (ör. STANDART, SUIT)
      * @param bedType       İstenen yatak türü (ör. SINGLE, DOUBLE)

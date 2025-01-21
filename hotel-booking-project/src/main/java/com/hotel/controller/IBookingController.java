@@ -62,9 +62,9 @@ public interface IBookingController {
 
 
     /**
-     * Verilen müşteri e-posta adresine göre o müşteriye ait rezervasyonları getirir.
+     * Verilen müşteri id bilgisine göre o müşteriye ait rezervasyonları getirir.
      *
-     * @param email Rezervasyonları getirilecek müşterinin e-posta adresi
+     * @param id Rezervasyonları getirilecek müşterinin id bilgisi
      * @return Belirtilen müşteriye ait DtoBooking listesini ResponseEntity ile döner
      * @see DtoBooking
      */
