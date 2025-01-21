@@ -1,5 +1,7 @@
 package com.hotel.entities;
 
+import java.util.UUID;
+
 import com.hotel.constants.BedType;
 import com.hotel.constants.RoomType;
 
@@ -21,8 +23,8 @@ import lombok.NoArgsConstructor;
 public class Room {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     @Column(nullable = false, unique = true)
     private String roomNumber;

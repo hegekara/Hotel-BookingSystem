@@ -28,12 +28,12 @@ public interface IPersonelService {
     /**
      * Verilen e-posta ve şifre ile personelin giriş yapmasını sağlar.
      *
-     * @param email    giriş yapmak isteyen personelin e-posta adresi
+     * @param id    giriş yapmak isteyen personelin e-posta adresi
      * @param password giriş yapmak isteyen personelin şifresi
      * @see DtoResponse
      * @return Giriş durumu hakkında bir DtoResponse nesnesi ile birlikte ResponseEntity döner
      */
-    public ResponseEntity<DtoResponse> loginPersonel(String email, String password);
+    public ResponseEntity<DtoResponse> loginPersonel(String id, String password);
 
 
     /**
@@ -48,41 +48,41 @@ public interface IPersonelService {
     /**
      * Verilen e-posta adresine sahip personelin bilgilerini döner.
      *
-     * @param email bilgileri alınacak personelin e-posta adresi
+     * @param id bilgileri alınacak personelin e-posta adresi
      * @return Bulunan personelin bilgilerini içeren DtoPersonel nesnesi ile ResponseEntity döner
      * @see DtoPersonel
      */
-    public ResponseEntity<DtoPersonel> getPersonelByEmail(String email);
+    public ResponseEntity<DtoPersonel> getPersonelById(String id);
 
 
     /**
      * Verilen e-posta adresine sahip personeli bulur ve bilgilerini günceller.
      *
-     * @param email           bilgileri güncellenecek personelin e-posta adresi
+     * @param id           bilgileri güncellenecek personelin e-posta adresi
      * @param updatedPersonel yeni bilgileri içeren DtoPersonelIU nesnesi
      * @return Güncellenmiş personelin bilgilerini içeren DtoPersonel nesnesi ile ResponseEntity döner
      * @see DtoPersonel
      * @see DtoPersonelIU
      */
-    public ResponseEntity<DtoPersonel> updatePersonel(String email, DtoPersonelIU updatedPersonel);
+    public ResponseEntity<DtoPersonel> updatePersonel(String id, DtoPersonelIU updatedPersonel);
 
 
     /**
      * Verilen e-posta adresine sahip personeli siler.
      *
-     * @param email silinecek personelin e-posta adresi
+     * @param id silinecek personelin e-posta adresi
      * @return Silme işleminin sonucunu belirten bir mesaj ile ResponseEntity döner
      */
-    public ResponseEntity<String> deletePersonel(String email);
+    public ResponseEntity<String> deletePersonel(String id);
 
 
     /**
      * Personelin mevcut şifresini değiştirir.
      *
-     * @param email       şifresi değiştirilecek personelin e-posta adresi
+     * @param id       şifresi değiştirilecek personelin e-posta adresi
      * @param oldPassword mevcut şifre
      * @param newPassword yeni şifre
      * @return Şifre değiştirme işleminin sonucunu belirten bir mesaj ile ResponseEntity döner
      */
-    public ResponseEntity<String> changePassword(String email, String oldPassword, String newPassword);
+    public ResponseEntity<String> changePassword(String id, String oldPassword, String newPassword);
 }

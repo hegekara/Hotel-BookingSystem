@@ -28,7 +28,7 @@ public interface IBookingController {
      * @return Bulunan rezervasyon bilgilerini içeren DtoBooking nesnesini ResponseEntity ile döner
      * @see DtoBooking
      */
-    public ResponseEntity<DtoBooking> getBookingById(Long id);
+    public ResponseEntity<DtoBooking> getBookingById(String id);
 
 
     /**
@@ -49,7 +49,7 @@ public interface IBookingController {
      * @return Güncellenmiş rezervasyon bilgilerini içeren DtoBooking nesnesini ResponseEntity ile döner
      * @see DtoBooking
      */
-    public ResponseEntity<DtoBooking> updateBooking(Long id, DtoBooking updatedBooking);
+    public ResponseEntity<DtoBooking> updateBooking(String id, DtoBooking updatedBooking);
 
 
     /**
@@ -58,7 +58,7 @@ public interface IBookingController {
      * @param id İptal edilecek rezervasyonun kimliği
      * @return İptal işleminin sonucunu belirten bir mesajı ResponseEntity ile döner
      */
-    public ResponseEntity<String> cancelBooking(Long id);
+    public ResponseEntity<String> cancelBooking(String id);
 
 
     /**
@@ -68,7 +68,7 @@ public interface IBookingController {
      * @return Belirtilen müşteriye ait DtoBooking listesini ResponseEntity ile döner
      * @see DtoBooking
      */
-    public ResponseEntity<List<DtoBooking>> getBookingsByCustomerEmail(String email);
+    public ResponseEntity<List<DtoBooking>> getBookingsByCustomerId(String id);
 
 
     /**
@@ -77,7 +77,7 @@ public interface IBookingController {
      * @param id Onaylanacak rezervasyonun kimliği
      * @return Onaylama işleminin sonucunu belirten bir mesajı ResponseEntity ile döner
      */
-    public ResponseEntity<String> acceptReservation(Long id);
+    public ResponseEntity<String> acceptReservation(String id);
 
 
     /**
@@ -86,5 +86,5 @@ public interface IBookingController {
      * @param id Reddedilecek rezervasyonun kimliği
      * @return Reddetme işleminin sonucunu belirten bir mesajı ResponseEntity ile döner
      */
-    public ResponseEntity<String> rejcetReservation(Long id);
+    public ResponseEntity<String> rejcetReservation(String id);
 }

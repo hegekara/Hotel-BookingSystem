@@ -1,6 +1,7 @@
 package com.hotel.entities;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import com.hotel.constants.BookingStatus;
 import com.hotel.entities.user.Customer;
@@ -25,8 +26,8 @@ import lombok.NoArgsConstructor;
 public class Booking {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)

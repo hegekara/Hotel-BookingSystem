@@ -9,6 +9,8 @@ import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -76,8 +78,9 @@ class CustomerServiceTests {
         String email = "john.doe@example.com";
         String rawPassword = "password123";
         String encodedPassword = "$2a$10$encodedPassword";
+        UUID id = UUID.randomUUID();
 
-        Customer mockCustomer = new Customer(1L, "John", "Doe", email, Role.CUSTOMER, "123456789", encodedPassword, LocalDate.now());
+        Customer mockCustomer = new Customer(id, "John", "Doe", email, Role.CUSTOMER, "123456789", encodedPassword, LocalDate.now());
         when(customerRepository.findByEmail(email)).thenReturn(mockCustomer);
         when(passwordEncoder.matches(rawPassword, encodedPassword)).thenReturn(true);
 
@@ -96,8 +99,8 @@ class CustomerServiceTests {
     @Test
     void testGetAllCustomers() {
         List<Customer> mockCustomers = List.of(
-            new Customer(1L, "John", "Doe", "john.doe@example.com", Role.CUSTOMER, "123456789", "$2a$10$password", LocalDate.now()),
-            new Customer(2L, "Jane", "Smith", "jane.smith@example.com", Role.CUSTOMER, "987654321", "$2a$10$password", LocalDate.now())
+            new Customer(UUID.randomUUID(), "John", "Doe", "john.doe@example.com", Role.CUSTOMER, "123456789", "$2a$10$password", LocalDate.now()),
+            new Customer(UUID.randomUUID(), "Jane", "Smith", "jane.smith@example.com", Role.CUSTOMER, "987654321", "$2a$10$password", LocalDate.now())
         );
         when(customerRepository.findAll()).thenReturn(mockCustomers);
 
@@ -112,14 +115,16 @@ class CustomerServiceTests {
     @Test
     void testUpdateCustomer() {
         String email = "john.doe@example.com";
-        Customer mockCustomer = new Customer(1L, "John", "Doe", email, Role.CUSTOMER, "123456789", "$2a$10$password", LocalDate.now());
+        UUID id = UUID.randomUUID();
 
-        DtoCustomer updatedDto = new DtoCustomer("Johnny", "Doe", email, "987654321", Role.CUSTOMER);
+        Customer mockCustomer = new Customer(id, "John", "Doe", email, Role.CUSTOMER, "123456789", "$2a$10$password", LocalDate.now());
 
-        when(customerRepository.findByEmail(email)).thenReturn(mockCustomer);
+        DtoCustomer updatedDto = new DtoCustomer(id, "Johnny", "Doe", email, "987654321", Role.CUSTOMER);
+
+        when(customerRepository.findById(id)).thenReturn(Optional.of(mockCustomer));
         when(customerRepository.save(any(Customer.class))).thenReturn(mockCustomer);
 
-        ResponseEntity<DtoCustomer> response = customerService.updateCustomer(email, updatedDto);
+        ResponseEntity<DtoCustomer> response = customerService.updateCustomer(id.toString(), updatedDto);
 
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -130,11 +135,12 @@ class CustomerServiceTests {
     @Test
     void testDeleteCustomer() {
         String email = "john.doe@example.com";
-        Customer mockCustomer = new Customer(1L, "John", "Doe", email, Role.CUSTOMER, "123456789", "$2a$10$password", LocalDate.now());
-        when(customerRepository.findByEmail(email)).thenReturn(mockCustomer);
+        UUID id = UUID.randomUUID();
+        Customer mockCustomer = new Customer(id, "John", "Doe", email, Role.CUSTOMER, "123456789", "$2a$10$password", LocalDate.now());
+        when(customerRepository.findById(id)).thenReturn(Optional.of(mockCustomer));
         when(bookingRepository.findByCustomer_Email(email)).thenReturn(List.of());
 
-        ResponseEntity<String> response = customerService.deleteCustomer(email);
+        ResponseEntity<String> response = customerService.deleteCustomer(id.toString());
 
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -148,14 +154,15 @@ class CustomerServiceTests {
         String oldPassword = "oldPassword123";
         String newPassword = "newPassword123";
         String encodedOldPassword = "$2a$10$encodedOldPassword";
+        UUID id = UUID.randomUUID();
 
-        Customer mockCustomer = new Customer(1L, "John", "Doe", email, Role.CUSTOMER, "123456789", encodedOldPassword, LocalDate.now());
+        Customer mockCustomer = new Customer(id, "John", "Doe", email, Role.CUSTOMER, "123456789", encodedOldPassword, LocalDate.now());
 
-        when(customerRepository.findByEmail(email)).thenReturn(mockCustomer);
+        when(customerRepository.findById(id)).thenReturn(Optional.of(mockCustomer));
         when(passwordEncoder.matches(oldPassword, encodedOldPassword)).thenReturn(true);
         when(passwordEncoder.encode(newPassword)).thenReturn("$2a$10$encodedNewPassword");
 
-        ResponseEntity<String> response = customerService.changePassword(email, oldPassword, newPassword);
+        ResponseEntity<String> response = customerService.changePassword(id.toString(), oldPassword, newPassword);
 
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());

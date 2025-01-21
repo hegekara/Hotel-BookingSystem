@@ -21,12 +21,14 @@ function ListBooking() {
         if (!token) {
             navigate("/");
         } else {
-            const email = localStorage.getItem("email");
+            const id = localStorage.getItem("id");
     
-            if (email) {
-                API.get(`booking/customer/${email}`)
+            if (id) {
+                API.get(`booking/customer/${id}`)
                     .then(response => {
                         setBookings(response.data);
+                        console.log(response);
+                        
                     })
                     .catch(error => {
                         console.error("Error fetching bookings:", error);

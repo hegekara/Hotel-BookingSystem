@@ -25,11 +25,11 @@ function Room({ rooms, checkInDate, checkOutDate }) {
     setRole(role);
   }, []);
   
-  const handleReserve = async (roomNumber) => {
+  const handleReserve = async (roomId) => {
     try {
       const reservation = {
-        email: localStorage.getItem("email"),
-        roomNumber: roomNumber,
+        customerId: localStorage.getItem("id"),
+        roomId: roomId,
         checkInDate: checkInDate || "",
         checkOutDate: checkOutDate || "",
         status: " ",
@@ -65,12 +65,12 @@ function Room({ rooms, checkInDate, checkOutDate }) {
                 <p><strong>Is Available Now:</strong> {room.available ? 'Yes' : 'No'}</p>
                 <p><strong>Price:</strong> ${room.pricePerNight}</p>
                 {(role ==="customer") && (
-                  <button className="reserve-button" onClick={() => handleReserve(room.roomNumber)}>
+                  <button className="reserve-button" onClick={() => handleReserve(room.id)}>
                     Reserve
                   </button>
                 )}
                 {(role === "admin" || role === "manager" || role === "personel") && (
-                  <Link style={{width: "90%"}} to={`/edit-room/${room.roomNumber}`} className="reserve-button">Edit Room</Link>
+                  <Link style={{width: "90%"}} to={`/edit-room/${room.id}`} className="reserve-button">Edit Room</Link>
                 )}
               </div>
             </div>

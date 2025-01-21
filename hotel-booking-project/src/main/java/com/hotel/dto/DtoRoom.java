@@ -1,5 +1,7 @@
 package com.hotel.dto;
 
+import java.util.UUID;
+
 import com.hotel.constants.BedType;
 import com.hotel.constants.RoomType;
 
@@ -11,6 +13,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DtoRoom {
+
+    private UUID id;
 
     private String roomNumber;
 

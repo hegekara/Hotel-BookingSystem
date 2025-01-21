@@ -51,7 +51,7 @@ public interface ICustomerController {
      * @return Bulunan müşteriin bilgilerini içeren DtoCustomer nesnesi ile ResponseEntity döner
      * @see DtoCustomer
      */
-    public ResponseEntity<DtoCustomer> getCustomerByEmail(String email);
+    public ResponseEntity<DtoCustomer> getCustomerById(String id);
 
 
     /**
@@ -62,7 +62,7 @@ public interface ICustomerController {
      * @return Güncellenmiş müşterinin bilgilerini içeren DtoCustomer nesnesi ile ResponseEntity döner
      * @see DtoCustomer
      */
-    public ResponseEntity<DtoCustomer> updateCustomer(String email, DtoCustomer updatedCustomer);
+    public ResponseEntity<DtoCustomer> updateCustomer(String id, DtoCustomer updatedCustomer);
 
 
     /**
@@ -71,7 +71,7 @@ public interface ICustomerController {
      * @param email silinecek müşterinin e-posta adresi
      * @return Silme işleminin sonucunu belirten bir mesaj ile ResponseEntity döner
      */
-    public ResponseEntity<String> deleteCustomer(String email);
+    public ResponseEntity<String> deleteCustomer(String id);
 
 
     /**
@@ -82,6 +82,6 @@ public interface ICustomerController {
      * @param newPassword yeni şifre
      * @return Şifre değiştirme işleminin sonucunu belirten bir mesaj ile ResponseEntity döner
      */
-    public ResponseEntity<String> changePassword(String email, String oldPassword, String newPassword);
+    public ResponseEntity<String> changePassword(String id, String oldPassword, String newPassword);
             
 }

@@ -35,9 +35,9 @@ public class RoomControllerImpl implements IRoomController{
         return roomService.getAllRooms();
     }
 
-    @GetMapping("/{roomNumber}")
-    public ResponseEntity<DtoRoom> getRoomByRoomNumber(@PathVariable String roomNumber) {
-        return roomService.getRoomByRoomNumber(roomNumber);
+    @GetMapping("/{id}")
+    public ResponseEntity<DtoRoom> getRoomById(@PathVariable String id) {
+        return roomService.getRoomById(id);
     }
 
     @PostMapping("/create")
@@ -45,14 +45,14 @@ public class RoomControllerImpl implements IRoomController{
         return roomService.createRoom(newRoom);
     }
 
-    @PutMapping("/{roomNumber}")
-    public ResponseEntity<DtoRoom> updateRoom(@PathVariable String roomNumber, @RequestBody DtoRoom updatedRoom) {
-        return roomService.updateRoom(roomNumber, updatedRoom);
+    @PutMapping("/{id}")
+    public ResponseEntity<DtoRoom> updateRoom(@PathVariable String id, @RequestBody DtoRoom updatedRoom) {
+        return roomService.updateRoom(id, updatedRoom);
     }
 
-    @DeleteMapping("/{roomNumber}")
-    public ResponseEntity<String> deleteRoom(@PathVariable String roomNumber) {
-        return roomService.deleteRoom(roomNumber);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteRoom(@PathVariable String id) {
+        return roomService.deleteRoom(id);
     }
 
     @GetMapping("/filter")

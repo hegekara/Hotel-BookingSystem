@@ -1,6 +1,7 @@
 package com.hotel.entities.user;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import com.hotel.constants.Role;
 
@@ -22,7 +23,7 @@ public class Customer extends BaseUser{
     private LocalDate registerDate;
 
 
-    public Customer(Long id, String firstName, String lastName, String email, Role role, String phoneNumber, String password, LocalDate registerDate) {
+    public Customer(UUID id, String firstName, String lastName, String email, Role role, String phoneNumber, String password, LocalDate registerDate) {
         super(id, firstName, lastName, email, role, phoneNumber, password);
         this.registerDate = registerDate;
     }

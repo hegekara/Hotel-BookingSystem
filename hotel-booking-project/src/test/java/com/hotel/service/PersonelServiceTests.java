@@ -10,6 +10,8 @@ import static org.mockito.Mockito.when;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -76,6 +78,7 @@ public class PersonelServiceTests {
         );
 
         DtoPersonel expectedResponse = new DtoPersonel(
+            null,
             "Aaa", 
             "Bbb", 
             "cc@ccc.com", 
@@ -95,10 +98,11 @@ public class PersonelServiceTests {
 
     @Test
     void testLoginPersonel() {
+        UUID id = UUID.randomUUID();
         List<Personel> mockPersonelList = Arrays.asList(
-            new Personel(1L, "Aaa", "Bbb", "cc@ccc.com", Role.ADMIN, "4838493", "$2a$10$encodedPassword1", LocalDate.parse("2024-01-01")),
-            new Personel(2L, "Xxx", "Yyy", "xx@yyy.com", Role.MANAGER, "1234567", "$2a$10$encodedPassword2", LocalDate.parse("2024-02-01")),
-            new Personel(3L, "Jjj", "Kkk", "jj@kkk.com", Role.PERSONEL, "9876543", "$2a$10$encodedPassword3", LocalDate.parse("2024-03-01"))
+            new Personel(id, "Aaa", "Bbb", "cc@ccc.com", Role.ADMIN, "4838493", "$2a$10$encodedPassword1", LocalDate.parse("2024-01-01")),
+            new Personel(UUID.randomUUID(), "Xxx", "Yyy", "xx@yyy.com", Role.MANAGER, "1234567", "$2a$10$encodedPassword2", LocalDate.parse("2024-02-01")),
+            new Personel(UUID.randomUUID(), "Jjj", "Kkk", "jj@kkk.com", Role.PERSONEL, "9876543", "$2a$10$encodedPassword3", LocalDate.parse("2024-03-01"))
         );
     
         String email = "cc@ccc.com";
@@ -108,7 +112,7 @@ public class PersonelServiceTests {
     
         when(passwordEncoder.matches(password, mockPersonelList.get(0).getPassword())).thenReturn(true);
     
-        DtoPersonel expectedDtoPersonel = new DtoPersonel("Aaa", "Bbb", "cc@ccc.com", "4838493", Role.ADMIN);
+        DtoPersonel expectedDtoPersonel = new DtoPersonel(id, "Aaa", "Bbb", "cc@ccc.com", "4838493", Role.ADMIN);
         String expectedToken = "mockedJWTToken";
         when(jwtUtil.generateToken(email, Role.ADMIN)).thenReturn(expectedToken);
         DtoResponse expectedResponse = new DtoResponse(expectedDtoPersonel, expectedToken, "login successful");
@@ -126,9 +130,9 @@ public class PersonelServiceTests {
     @Test
     void testGetAllPersonel() {
         List<Personel> mockPersonelList = Arrays.asList(
-            new Personel(1L, "Aaa", "Bbb", "cc@ccc.com", Role.ADMIN, "4838493", "382ds*1", LocalDate.parse("2024-01-01")),
-            new Personel(2L, "Xxx", "Yyy", "xx@yyy.com", Role.MANAGER, "1234567", "password1", LocalDate.parse("2024-02-01")),
-            new Personel(3L, "Jjj", "Kkk", "jj@kkk.com", Role.PERSONEL, "9876543", "mod@123", LocalDate.parse("2024-03-01"))
+            new Personel(UUID.randomUUID(), "Aaa", "Bbb", "cc@ccc.com", Role.ADMIN, "4838493", "382ds*1", LocalDate.parse("2024-01-01")),
+            new Personel(UUID.randomUUID(), "Xxx", "Yyy", "xx@yyy.com", Role.MANAGER, "1234567", "password1", LocalDate.parse("2024-02-01")),
+            new Personel(UUID.randomUUID(), "Jjj", "Kkk", "jj@kkk.com", Role.PERSONEL, "9876543", "mod@123", LocalDate.parse("2024-03-01"))
         );
 
         when(personelRepository.findAll()).thenReturn(mockPersonelList);
@@ -144,8 +148,10 @@ public class PersonelServiceTests {
 
     @Test
     void testUpdatePersonel() {
+        UUID id = UUID.randomUUID();
+
         Personel existingPersonel = new Personel(
-            1L,
+            id,
             "Aaa",
             "Bbb",
             "cc@ccc.com",
@@ -165,7 +171,7 @@ public class PersonelServiceTests {
         );
     
         Personel updatedPersonel = new Personel(
-            1L,
+            id,
             "Ege",
             "Kara",
             "cc@ccc.com",
@@ -176,6 +182,7 @@ public class PersonelServiceTests {
         );
     
         DtoPersonel expectedResponse = new DtoPersonel(
+            id,
             "Ege",
             "Kara",
             "cc@ccc.com",
@@ -183,10 +190,10 @@ public class PersonelServiceTests {
             Role.ADMIN
         );
     
-        when(personelRepository.findByEmail("cc@ccc.com")).thenReturn(existingPersonel);
+        when(personelRepository.findById(id)).thenReturn(Optional.of(existingPersonel));
         when(personelRepository.save(any(Personel.class))).thenReturn(updatedPersonel);
     
-        ResponseEntity<DtoPersonel> result = personelService.updatePersonel("cc@ccc.com", updatedPersonelDTO);
+        ResponseEntity<DtoPersonel> result = personelService.updatePersonel(id.toString(), updatedPersonelDTO);
     
         assertNotNull(result);
         assertEquals(HttpStatus.OK, result.getStatusCode());
@@ -197,8 +204,9 @@ public class PersonelServiceTests {
     @Test
     void testDeletePersonel_Success() {
         String email = "cc@ccc.com";
+        UUID id = UUID.randomUUID();
         Personel mockPersonel = new Personel(
-            1L,
+            id,
             "Aaa",
             "Bbb",
             email,
@@ -208,9 +216,9 @@ public class PersonelServiceTests {
             LocalDate.parse("2024-01-01")
         );
 
-        when(personelRepository.findByEmail(email)).thenReturn(mockPersonel);
+        when(personelRepository.findById(id)).thenReturn(Optional.of(mockPersonel));
 
-        ResponseEntity<String> response = personelService.deletePersonel(email);
+        ResponseEntity<String> response = personelService.deletePersonel(id.toString());
 
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -221,13 +229,13 @@ public class PersonelServiceTests {
 
     @Test
     void testDeletePersonel_NotFound() {
-        String email = "nonexistent@ccc.com";
-        when(personelRepository.findByEmail(email)).thenReturn(null);
+        UUID id = UUID.randomUUID();
+        when(personelRepository.findById(id)).thenReturn(Optional.empty());
 
-        ResponseEntity<String> response = personelService.deletePersonel(email);
+        ResponseEntity<String> response = personelService.deletePersonel(id.toString());
 
         assertNotNull(response);
-        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode()); 
         assertEquals("Personel not found.", response.getBody());
 
         verify(personelRepository, times(0)).delete(any(Personel.class));
@@ -241,9 +249,10 @@ public class PersonelServiceTests {
         String oldPassword = "oldPassword123";
         String newPassword = "newPassword123";
         String encodedOldPassword = "$2a$10$encodedOldPassword";
+        UUID id = UUID.randomUUID();
 
         Personel mockPersonel = new Personel(
-            1L,
+            id,
             "Aaa",
             "Bbb",
             email,
@@ -253,11 +262,11 @@ public class PersonelServiceTests {
             LocalDate.parse("2024-01-01")
         );
 
-        when(personelRepository.findByEmail(email)).thenReturn(mockPersonel);
+        when(personelRepository.findById(id)).thenReturn(Optional.of(mockPersonel));
         when(passwordEncoder.matches(oldPassword, encodedOldPassword)).thenReturn(true);
         when(passwordEncoder.encode(newPassword)).thenReturn("$2a$10$encodedNewPassword");
 
-        ResponseEntity<String> response = personelService.changePassword(email, oldPassword, newPassword);
+        ResponseEntity<String> response = personelService.changePassword(id.toString(), oldPassword, newPassword);
 
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -272,9 +281,10 @@ public class PersonelServiceTests {
         String oldPassword = "wrongOldPassword";
         String newPassword = "newPassword123";
         String encodedOldPassword = "$2a$10$encodedOldPassword";
+        UUID id = UUID.randomUUID();
 
         Personel mockPersonel = new Personel(
-            1L,
+            id,
             "Aaa",
             "Bbb",
             email,
@@ -284,10 +294,10 @@ public class PersonelServiceTests {
             LocalDate.parse("2024-01-01")
         );
 
-        when(personelRepository.findByEmail(email)).thenReturn(mockPersonel);
+        when(personelRepository.findById(id)).thenReturn(Optional.of(mockPersonel));
         when(passwordEncoder.matches(oldPassword, encodedOldPassword)).thenReturn(false);
 
-        ResponseEntity<String> response = personelService.changePassword(email, oldPassword, newPassword);
+        ResponseEntity<String> response = personelService.changePassword(id.toString(), oldPassword, newPassword);
 
         assertNotNull(response);
         assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
@@ -298,13 +308,13 @@ public class PersonelServiceTests {
 
     @Test
     void testChangePassword_PersonelNotFound() {
-        String email = "nonexistent@ccc.com";
         String oldPassword = "oldPassword123";
         String newPassword = "newPassword123";
+        UUID id = UUID.randomUUID();
 
-        when(personelRepository.findByEmail(email)).thenReturn(null);
+        when(personelRepository.findById(id)).thenReturn(Optional.empty());
 
-        ResponseEntity<String> response = personelService.changePassword(email, oldPassword, newPassword);
+        ResponseEntity<String> response = personelService.changePassword(id.toString(), oldPassword, newPassword);
 
         assertNotNull(response);
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());

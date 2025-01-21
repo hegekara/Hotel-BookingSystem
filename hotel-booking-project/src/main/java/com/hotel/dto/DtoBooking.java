@@ -1,6 +1,7 @@
 package com.hotel.dto;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import com.hotel.constants.BookingStatus;
 import com.hotel.entities.Room;
@@ -16,7 +17,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class DtoBooking {
 
-    private Long id;
+    private UUID id;
 
     private Customer customer;
 

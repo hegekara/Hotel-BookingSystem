@@ -51,7 +51,7 @@ public interface IPersonelController {
      * @return Bulunan personelin bilgilerini içeren DtoPersonel nesnesi ile ResponseEntity döner
      * @see DtoPersonel
      */
-    public ResponseEntity<DtoPersonel> getPersonelByEmail(String email);
+    public ResponseEntity<DtoPersonel> getPersonelById(String id);
 
 
     /**
@@ -63,7 +63,7 @@ public interface IPersonelController {
      * @see DtoPersonel
      * @see DtoPersonelIU
      */
-    public ResponseEntity<DtoPersonel> updatePersonel(String email, DtoPersonelIU updatedPersonel);
+    public ResponseEntity<DtoPersonel> updatePersonel(String id, DtoPersonelIU updatedPersonel);
 
 
     /**
@@ -72,7 +72,7 @@ public interface IPersonelController {
      * @param email silinecek personelin e-posta adresi
      * @return Silme işleminin sonucunu belirten bir mesaj ile ResponseEntity döner
      */
-    public ResponseEntity<String> deletePersonel(String email);
+    public ResponseEntity<String> deletePersonel(String id);
 
 
     /**
@@ -83,7 +83,7 @@ public interface IPersonelController {
      * @param newPassword yeni şifre
      * @return Şifre değiştirme işleminin sonucunu belirten bir mesaj ile ResponseEntity döner
      */
-    public ResponseEntity<String> changePassword(String email, String oldPassword, String newPassword);
+    public ResponseEntity<String> changePassword(String id, String oldPassword, String newPassword);
 
 
     /**

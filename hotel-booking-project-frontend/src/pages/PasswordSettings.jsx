@@ -9,7 +9,7 @@ function PasswordSettings() {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [newPassword2, setNewPassword2] = useState("");
-  const [email] = useState(localStorage.getItem("email"));
+  const [id] = useState(localStorage.getItem("id"));
   const [role, setRole] = useState(localStorage.getItem("role"));
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
@@ -40,7 +40,7 @@ function PasswordSettings() {
 
     if(role === "customer"){
       try {
-        const response = await API.patch(`/customer/${email}/password`, null, {
+        const response = await API.patch(`/customer/${id}/password`, null, {
           params: {
             oldPassword: currentPassword,
             newPassword: newPassword,
@@ -67,7 +67,7 @@ function PasswordSettings() {
 
     if((role=="admin")|| (role=="manager")|| (role=="personel")){
       try {
-        const response = await API.patch(`/personel/${email}/password`, null, {
+        const response = await API.patch(`/personel/${id}/password`, null, {
           params: {
             oldPassword: currentPassword,
             newPassword: newPassword,

@@ -6,10 +6,11 @@ import "../styles/RoomCreate.css";
 
 function EditRoom() {
     const navigate = useNavigate();
-    const { roomNumber } = useParams();
+    const { id } = useParams();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [role, setRole] = useState(localStorage.getItem("role") || "");
 
+    const [roomNumber, setRoomNumber] = useState("");
     const [roomType, setRoomType] = useState("");
     const [capacity, setCapacity] = useState("");
     const [bedType, setBedType] = useState("");
@@ -31,17 +32,19 @@ function EditRoom() {
             return;
         }
 
-        if (roomNumber) {
+        if (id) {
             fetchRoomData();
         }
 
         fetchTypes();
-    }, [navigate, roomNumber]);
+    }, [navigate, id]);
 
     const fetchRoomData = async () => {
         try {
-            const response = await API.get(`/room/${roomNumber}`);
+            const response = await API.get(`/room/${id}`);
             const room = response.data;
+
+            setRoomNumber(room.roomNumber || "");
             setRoomType(room.roomType || "");
             setCapacity(room.capacity || "");
             setBedType(room.bedType || "");
@@ -79,7 +82,7 @@ function EditRoom() {
         };
 
         try {
-            await API.put(`/room/${roomNumber}`, room);
+            await API.put(`/room/${id}`, room);
             alert("Room updated successfully!");
             navigate("/admin-list-room");
         } catch (error) {
@@ -91,7 +94,7 @@ function EditRoom() {
     const handleDeleteRoom = async () => {
         if (window.confirm("Are you sure you want to delete this room?")) {
             try {
-                await API.delete(`/room/${roomNumber}`);
+                await API.delete(`/room/${id}`);
                 alert("Deletion successful!");
                 navigate("/admin-list-room");
             } catch (error) {

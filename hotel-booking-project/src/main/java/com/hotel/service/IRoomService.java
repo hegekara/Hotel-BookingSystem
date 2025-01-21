@@ -25,11 +25,11 @@ public interface IRoomService {
     /**
      * Verilen oda numarasına göre oda bilgilerini getirir.
      *
-     * @param roomNumber Bilgileri alınacak odanın numarası
+     * @param id Bilgileri alınacak odanın numarası
      * @return Bulunan odanın bilgilerini içeren DtoRoom nesnesini ResponseEntity ile döner
      * @see DtoRoom
      */
-    public ResponseEntity<DtoRoom> getRoomByRoomNumber(String roomNumber);
+    public ResponseEntity<DtoRoom> getRoomById(String id);
 
 
     /**
@@ -45,12 +45,12 @@ public interface IRoomService {
     /**
      * Verilen oda numarasına sahip bir odanın bilgilerini günceller.
      *
-     * @param roomNumber   Güncellenecek odanın numarası
+     * @param id  Güncellenecek odanın numarası
      * @param updatedRoom  Güncellenmiş oda bilgilerini içeren DtoRoom nesnesi
      * @return Güncellenmiş odanın bilgilerini içeren DtoRoom nesnesini ResponseEntity ile döner
      * @see DtoRoom
      */
-    public ResponseEntity<DtoRoom> updateRoom(String roomNumber, DtoRoom updatedRoom);
+    public ResponseEntity<DtoRoom> updateRoom(String id, DtoRoom updatedRoom);
 
     
     /**
@@ -59,7 +59,7 @@ public interface IRoomService {
      * @param roomNumber Silinecek odanın numarası
      * @return Silme işleminin sonucunu belirten bir mesajı ResponseEntity ile döner
      */
-    public ResponseEntity<String> deleteRoom(String roomNumber);
+    public ResponseEntity<String> deleteRoom(String id);
 
 
     /**

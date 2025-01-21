@@ -41,12 +41,10 @@ public class SecurityConfig {
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .authorizeHttpRequests(auth -> 
                 auth.requestMatchers("/rest/api/customer/login",
+                "/rest/api/personel/register",
                 "/rest/api/customer/register",
-                "/rest/api/personel/login",
-                "/rest/api/personel/register"
+                "/rest/api/personel/login"
                 ).permitAll()
-                .requestMatchers("/rest/api/room/**",
-                "/rest/api/booking/**").authenticated()
                 .anyRequest().authenticated()
             )
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
