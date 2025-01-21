@@ -36,6 +36,7 @@ Veri tabanı yönetim sistemi olarak ise PostgreSql kullanılmıştır. Aşağı
 
 | Alan            | Tip        | Açıklama                             |
 | :-------------- | :--------- | :----------------------------------- |
+| `id`    | `UUID`   | ID Bilgisi            |
 | `roomNumber`    | `string`   | Oda numarası            |
 | `roomType`      | `RoomType` | Oda tipi                |
 | `capacity`      | `int`      | Odanın kapasitesi       |
@@ -58,14 +59,18 @@ Veri tabanı yönetim sistemi olarak ise PostgreSql kullanılmıştır. Aşağı
 
 | Alan            | Tip        | Açıklama                             |
 | :-------------- | :--------- | :----------------------------------- |
+| `id`    | `UUID`   | ID Bilgisi            |
 | `firstName`     | `string`   | **Zorunlu**. Müşterinin adı          |
 | `lastName`      | `string`   | **Zorunlu**. Müşterinin soyadı       |
+| `email`         | `string`   | Müşterinin e-posta adresi |
+| `phoneNumber`   | `string`   | Müşterinin telefon numarası |
+| `role`      | `Role`   | Müşteri rolü      |
 
 #### DtoBooking Yapısı
 
 | Alan             | Tip           | Açıklama                          |
 | :--------------- | :------------ | :-------------------------------- |
-| `id`             | `Long`        | Rezervasyon ID'si                 |
+| `id`             | `UUID`        | Rezervasyon ID'si                 |
 | `customer`       | `Customer`    | Rezervasyonu yapan müşteri bilgisi|
 | `room`           | `Room`        | Rezervasyon yapılan oda bilgisi   |
 | `checkInDate`    | `LocalDate`   | Giriş tarihi                      |
@@ -76,8 +81,8 @@ Veri tabanı yönetim sistemi olarak ise PostgreSql kullanılmıştır. Aşağı
 
 | Alan             | Tip           | Açıklama                          |
 | :--------------- | :------------ | :-------------------------------- |
-| `email`          | `String`      | Rezervasyonu yapan müşteri e-postası |
-| `roomNumber`     | `String`      | Rezervasyon yapılan oda numarası  |
+| `customerId`          | `String`      | Rezervasyonu yapan müşteri id numarası |
+| `roomId`     | `String`      | Rezervasyon yapılan oda id numarası  |
 | `checkInDate`    | `LocalDate`   | Giriş tarihi                      |
 | `checkOutDate`   | `LocalDate`   | Çıkış tarihi                      |
 | `bookingStatus`  | `BookingStatus`| Rezervasyon durumu                |
@@ -122,26 +127,26 @@ Tüm müşterileri döner.
 ### Kullanıcı Bilgisi
 
 ```http
-GET /rest/api/customer/{email}
+GET /rest/api/customer/{id}
 ```
 
 #### Yol Parametreleri
 
 | Parametre       | Tip      | Açıklama                              |
 | :-------------- | :------- | :------------------------------------ |
-| `email`         | `string` | **Zorunlu**. Müşterinin e-posta adresi |
+| `id`         | `string` | **Zorunlu**. Müşterinin id bilgisi |
 
 ### Kullanıcı Güncelleme
 
 ```http
-PUT /rest/api/customer/update/{email}
+PUT /rest/api/customer/update/{id}
 ```
 
 #### Yol Parametreleri
 
 | Parametre       | Tip      | Açıklama                              |
 | :-------------- | :------- | :------------------------------------ |
-| `email`         | `string` | **Zorunlu**. Güncellenecek müşteri e-posta adresi |
+| `id`         | `string` | **Zorunlu**. Güncellenecek müşteri id bilgisi |
 
 #### İstek Gövdesi
 
@@ -152,25 +157,25 @@ PUT /rest/api/customer/update/{email}
 ### Müşteri Silme  
 
 ```http
-DELETE /rest/api/customer/delete/{email}
+DELETE /rest/api/customer/delete/{id}
 ```
 
 | Parametre | Tip      | Açıklama                              |  
 | :-------- | :------- | :------------------------------------ |  
-| `email`   | `string` | **Zorunlu**. Müşterinin e-posta adresi |  
+| `id`   | `string` | **Zorunlu**. Müşterinin id bilgisi |  
 
 
 ### Şifre Değiştirme  
 
 ```http
-PATCH /rest/api/customer/{email}/password
+PATCH /rest/api/customer/{id}/password
 ```
 
 #### Yol Parametreleri  
 
 | Parametre | Tip      | Açıklama                              |  
 | :-------- | :------- | :------------------------------------ |  
-| `email`   | `string` | **Zorunlu**. Müşterinin e-posta adresi |  
+| `id`   | `string` | **Zorunlu**. Müşterinin id bilgisi |  
 
 #### Sorgu Parametreleri  
 
@@ -196,14 +201,14 @@ Tüm odaların listesini döner.
 ### Oda Bilgisi
 
 ```http
-GET /rest/api/room/{roomNumber}
+GET /rest/api/room/{id}
 ```
 
 #### Yol Parametreleri
 
 | Parametre      | Tip      | Açıklama                          |
 | :------------- | :------- | :-------------------------------- |
-| `roomNumber`   | `string` | **Zorunlu**. Oda numarası         |
+| `id`   | `string` | **Zorunlu**. Oda id bilgisi         |
 
 
 ### Oda Oluşturma
@@ -222,14 +227,14 @@ POST /rest/api/room/create
 ### Oda Güncelleme
 
 ```http
-PUT /rest/api/room/{roomNumber}
+PUT /rest/api/room/{id}
 ```
 
 #### Yol Parametreleri
 
 | Parametre      | Tip      | Açıklama                          |
 | :------------- | :------- | :-------------------------------- |
-| `roomNumber`   | `string` | **Zorunlu**. Güncellenecek oda numarası |
+| `id`   | `string` | **Zorunlu**. Güncellenecek odanın id bilgisi |
 
 #### İstek Gövdesi
 
@@ -241,14 +246,14 @@ PUT /rest/api/room/{roomNumber}
 ### Oda Silme
 
 ```http
-DELETE /rest/api/room/{roomNumber}
+DELETE /rest/api/room/{id}
 ```
 
 #### Yol Parametreleri
 
 | Parametre      | Tip      | Açıklama                          |
 | :------------- | :------- | :-------------------------------- |
-| `roomNumber`   | `string` | **Zorunlu**. Silinecek oda numarası |
+| `id`   | `string` | **Zorunlu**. Silinecek odanın id bilgisi |
 
 ### Uygun Odaları Filtreleme
 
@@ -304,7 +309,7 @@ GET /rest/api/booking/{id}
 
 | Parametre      | Tip      | Açıklama                              |
 | :------------- | :------- | :------------------------------------ |
-| `id`           | `Long`   | **Zorunlu**. Rezervasyon ID'si        |
+| `id`           | `String`   | **Zorunlu**. Rezervasyon ID'si        |
 
 ### Rezervasyon Oluşturma
 
@@ -328,7 +333,7 @@ PUT /rest/api/booking/{id}
 
 | Parametre      | Tip      | Açıklama                              |
 | :------------- | :------- | :------------------------------------ |
-| `id`           | `Long`   | **Zorunlu**. Güncellenecek rezervasyon ID'si |
+| `id`           | `String`   | **Zorunlu**. Güncellenecek rezervasyon ID'si |
 
 #### İstek Gövdesi
 
@@ -346,19 +351,19 @@ DELETE /rest/api/booking/{id}
 
 | Parametre      | Tip      | Açıklama                              |
 | :------------- | :------- | :------------------------------------ |
-| `id`           | `Long`   | **Zorunlu**. Silinecek rezervasyon ID'si |
+| `id`           | `String`   | **Zorunlu**. Silinecek rezervasyon ID'si |
 
 ### Müşteriye Göre Rezervasyonlar
 
 ```http
-GET /rest/api/booking/customer/{email}
+GET /rest/api/booking/customer/{id}
 ```
 
 #### Yol Parametreleri
 
 | Parametre      | Tip      | Açıklama                              |
 | :------------- | :------- | :------------------------------------ |
-| `email`        | `string` | **Zorunlu**. Müşterinin e-posta adresi |
+| `id`        | `String` | **Zorunlu**. Müşterinin id bilgisi |
 
 ### Rezervasyon Onaylama
 
@@ -370,7 +375,7 @@ PATCH /rest/api/booking/accept/{id}
 
 | Parametre      | Tip      | Açıklama                              |
 | :------------- | :------- | :------------------------------------ |
-| `id`           | `Long`   | **Zorunlu**. Onaylanacak rezervasyon ID'si |
+| `id`           | `String`   | **Zorunlu**. Onaylanacak rezervasyon ID'si |
 
 ### Rezervasyon Reddetme
 
@@ -382,7 +387,7 @@ PATCH /rest/api/booking/reject/{id}
 
 | Parametre      | Tip      | Açıklama                              |
 | :------------- | :------- | :------------------------------------ |
-| `id`           | `Long`   | **Zorunlu**. Reddedilecek rezervasyon ID'si |
+| `id`           | `String`   | **Zorunlu**. Reddedilecek rezervasyon ID'si |
 
 
 ## Front-End
