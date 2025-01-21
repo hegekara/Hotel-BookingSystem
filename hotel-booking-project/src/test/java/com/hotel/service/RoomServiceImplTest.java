@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
@@ -53,21 +54,11 @@ public class RoomServiceImplTest {
         assertEquals(2, response.getBody().size());
     }
 
-/*     @Test
-    public void testGetRoomByRoomNumber() {
-        Room room = new Room(UUID.randomUUID(), "101", RoomType.STANDART, 2, BedType.SINGLE, 100.0, true, true);
-
-        when(roomRepository.findByRoomNumber("101")).thenReturn(room);
-
-        ResponseEntity<DtoRoom> response = roomService.getRoomByRoomNumber("101");
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals("101", response.getBody().getRoomNumber());
-    } */
-
     @Test
     public void testCreateRoom() {
-        Room room = new Room(UUID.randomUUID(), "101", RoomType.STANDART, 2, BedType.SINGLE, 100.0, true, true);
-        DtoRoom dtoRoom = new DtoRoom("101", RoomType.STANDART, 2, BedType.SINGLE, 100.0, true, true);
+        UUID id = UUID.randomUUID();
+        Room room = new Room(id, "101", RoomType.STANDART, 2, BedType.SINGLE, 100.0, true, true);
+        DtoRoom dtoRoom = new DtoRoom(id, "101", RoomType.STANDART, 2, BedType.SINGLE, 100.0, true, true);
 
         when(roomRepository.save(any(Room.class))).thenReturn(room);
 
@@ -78,13 +69,14 @@ public class RoomServiceImplTest {
 
     @Test
     public void testUpdateRoom() {
-        Room existingRoom = new Room(UUID.randomUUID(), "101", RoomType.STANDART, 2, BedType.SINGLE, 100.0, true, true);
-        DtoRoom updatedDtoRoom = new DtoRoom("101", RoomType.STANDART, 3, BedType.DOUBLE, 200.0, false, false);
+        UUID id = UUID.randomUUID();
+        Room existingRoom = new Room(id, "101", RoomType.STANDART, 2, BedType.SINGLE, 100.0, true, true);
+        DtoRoom updatedDtoRoom = new DtoRoom(id, "101", RoomType.STANDART, 3, BedType.DOUBLE, 200.0, false, false);
 
-        when(roomRepository.findByRoomNumber("101")).thenReturn(existingRoom);
+        when(roomRepository.findById(id)).thenReturn(Optional.of(existingRoom));
         when(roomRepository.save(any(Room.class))).thenReturn(existingRoom);
 
-        ResponseEntity<DtoRoom> response = roomService.updateRoom("101", updatedDtoRoom);
+        ResponseEntity<DtoRoom> response = roomService.updateRoom(id.toString(), updatedDtoRoom);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(RoomType.STANDART, response.getBody().getRoomType());
         assertEquals(200.0, response.getBody().getPricePerNight(), 0.0);
@@ -93,13 +85,14 @@ public class RoomServiceImplTest {
 
     @Test
     public void testDeleteRoom() {
-        Room room = new Room(UUID.randomUUID(), "101", RoomType.STANDART, 2, BedType.SINGLE, 100.0, true, true);
+        UUID id = UUID.randomUUID();
+        Room room = new Room(id, "101", RoomType.STANDART, 2, BedType.SINGLE, 100.0, true, true);
 
-        when(roomRepository.findByRoomNumber("101")).thenReturn(room);
+        when(roomRepository.findById(id)).thenReturn(Optional.of(room));
         when(bookingRepository.findByRoom_RoomNumber("101")).thenReturn(Collections.emptyList());
         doNothing().when(roomRepository).delete(any(Room.class));
 
-        ResponseEntity<String> response = roomService.deleteRoom("101");
+        ResponseEntity<String> response = roomService.deleteRoom(id.toString());
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals("Room 101 has been deleted successfully.", response.getBody());
     }
